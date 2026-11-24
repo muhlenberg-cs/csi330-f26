@@ -1,0 +1,836 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Project A Training Wheels · CSI 330</title>
+<meta name="description" content="A step-by-step companion for CSI 330 Project A: what to do in your notebook, and a check of what you got.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='4' cy='12' r='3' fill='none' stroke='%235b48e8' stroke-width='1.6'/%3E%3Ccircle cx='12' cy='12' r='3' fill='none' stroke='%235b48e8' stroke-width='1.6'/%3E%3Cpath d='M4 12 8 4h3M8 4l4 8' fill='none' stroke='%235b48e8' stroke-width='1.6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* One working column with a step list beside it. Status is carried by a word and a small dot,
+   never by coloured stripes or tinted cards. The course violet is used for actions and focus only. */
+:root {
+  --bg: #fbfbfa; --surface: #ffffff; --ink: #1c1b22; --muted: #55535f; --line: #e2e0e7; --line-strong: #c9c6d3;
+  --accent: #5b48e8; --accent-ink: #ffffff; --accent-soft: #efedfd;
+  --good: #17683f; --check: #7a4f00; --work: #a3231a; --unk: #4a4f5a;
+  --code-bg: #f1f0f4;
+  --f-head: "Source Serif 4", Georgia, serif;
+  --f-body: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #16151a; --surface: #1d1c22; --ink: #ecebf0; --muted: #b3b0bd; --line: #2f2d37; --line-strong: #46434f;
+  --accent: #a497ff; --accent-ink: #16151a; --accent-soft: #29263d;
+  --good: #7fd6a3; --check: #f0c46a; --work: #ff9b90; --unk: #c6cad2; --code-bg: #26252d; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #16151a; --surface: #1d1c22; --ink: #ecebf0; --muted: #b3b0bd; --line: #2f2d37; --line-strong: #46434f;
+  --accent: #a497ff; --accent-ink: #16151a; --accent-soft: #29263d;
+  --good: #7fd6a3; --check: #f0c46a; --work: #ff9b90; --unk: #c6cad2; --code-bg: #26252d; color-scheme: dark; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.55;
+  padding: 28px max(16px, env(safe-area-inset-right, 0px)) 64px max(16px, env(safe-area-inset-left, 0px)); }
+p, li { text-wrap: pretty; }
+.wrap { max-width: 1100px; margin: 0 auto; }
+header.top { padding-bottom: 20px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+.course { margin: 0 0 4px; font-size: 15px; color: var(--muted); }
+.course a { color: inherit; }
+h1 { font-family: var(--f-head); font-weight: 700; font-size: clamp(28px, 4vw, 36px); line-height: 1.15; margin: 0; text-wrap: balance; }
+.lede { max-width: 66ch; margin: 10px 0 0; }
+.key { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 14px 0 0; padding: 0; list-style: none; font-size: 15px; }
+.key li { display: flex; align-items: center; gap: 7px; }
+details.trust { margin-top: 14px; max-width: 80ch; }
+details.trust summary { cursor: pointer; font-weight: 600; color: var(--accent); width: fit-content; }
+details.trust summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+.trust dl { margin: 12px 0 0; display: grid; grid-template-columns: minmax(0, 15em) minmax(0, 1fr); gap: 8px 20px; }
+.trust dt { font-weight: 600; }
+.trust dd { margin: 0; color: var(--muted); }
+@media (max-width: 640px) { .trust dl { grid-template-columns: minmax(0, 1fr); gap: 2px; } .trust dd { margin-bottom: 10px; } }
+.trust .bottom { margin: 12px 0 0; }
+.layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 32px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
+nav.rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); display: flex; flex-direction: column; }
+@media (max-width: 860px) { nav.rail { position: static; border: 1px solid var(--line); border-radius: 8px; padding: 6px; background: var(--surface); } }
+.rail .phase { font-size: 14px; font-weight: 700; color: var(--muted); padding: 16px 10px 4px; }
+.rail .phase:first-child { padding-top: 0; }
+.rail button { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: 22px minmax(0,1fr) auto; gap: 8px; align-items: center; padding: 7px 10px; border-radius: 6px; font-size: 15px; line-height: 1.35; min-height: 36px; }
+.rail button:hover { background: var(--code-bg); }
+.rail button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.rail button[aria-current="step"] { background: var(--accent-soft); font-weight: 700; }
+.rail .num { font-family: var(--f-mono); font-size: 13px; color: var(--muted); text-align: right; }
+.rail .name { min-width: 0; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: transparent; box-shadow: inset 0 0 0 1.5px var(--line-strong); flex: none; }
+.dot.good { background: var(--good); box-shadow: none; } .dot.check { background: var(--check); box-shadow: none; }
+.dot.work { background: var(--work); box-shadow: none; } .dot.unk { background: var(--unk); box-shadow: none; }
+.chip { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 700; white-space: nowrap; }
+.chip::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: currentColor; flex: none; }
+.chip.good { color: var(--good); } .chip.check { color: var(--check); } .chip.work { color: var(--work); } .chip.unk { color: var(--unk); }
+.chip.none { color: var(--muted); font-weight: 600; } .chip.none::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--line-strong); }
+.tag { font-style: italic; color: var(--muted); margin-right: 4px; }
+.tag::after { content: "."; }
+main.pane { min-width: 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: clamp(18px, 3vw, 32px); display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.card h2 { font-family: var(--f-head); font-size: 26px; line-height: 1.2; font-weight: 700; margin: 0; text-wrap: balance; }
+.card h2:focus { outline: none; }
+.card h3.sec { margin: 10px 0 0; font-size: 18px; font-weight: 700; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.card h3.sec .count { font-size: 15px; color: var(--muted); font-weight: 400; }
+.card .why { margin: 0; max-width: 68ch; font-size: 17px; }
+.src { font-size: 14px; color: var(--muted); }
+.card > .src { margin-top: -8px; }
+code { font-family: var(--f-mono); font-size: .86em; background: var(--code-bg); border-radius: 3px; padding: 1px 4px; overflow-wrap: anywhere; }
+ol.todo { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; counter-reset: todo; }
+ol.todo li { display: grid; grid-template-columns: 22px 24px minmax(0, 1fr); gap: 6px; align-items: start; padding: 8px 4px; border-top: 1px solid var(--line); counter-increment: todo; }
+ol.todo li:last-child { border-bottom: 1px solid var(--line); }
+ol.todo li::before { content: counter(todo) "."; font-family: var(--f-mono); font-size: 13px; color: var(--muted); padding-top: 3px; text-align: right; }
+ol.todo input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--accent); cursor: pointer; }
+ol.todo label { cursor: pointer; min-width: 0; max-width: 70ch; }
+ol.todo li.done label { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--line-strong); }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px 20px; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field.wide { grid-column: 1 / -1; }
+.field label { font-weight: 600; font-size: 15px; }
+.hint { font-size: 14px; color: var(--muted); }
+input[type="text"], input[type="number"], select, textarea { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line-strong); border-radius: 6px; padding: 9px 11px; width: 100%; min-width: 0; min-height: 42px; }
+input[type="number"] { font-family: var(--f-mono); font-size: 15px; font-variant-numeric: tabular-nums; }
+textarea { min-height: 96px; resize: vertical; }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.facts { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 0; display: flex; flex-direction: column; gap: 4px; }
+.facts h3 { margin: 0; font-size: 15px; font-weight: 700; }
+.facts ul { margin: 0; padding-left: 20px; }
+.facts li { margin: 2px 0; max-width: 72ch; }
+.facts p { margin: 0; }
+.verdicts { display: flex; flex-direction: column; }
+.verdicts h3.sec { margin-bottom: 6px; }
+.v { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 14px; align-items: baseline; padding: 11px 0; border-top: 1px solid var(--line); }
+.v:last-child { border-bottom: 1px solid var(--line); }
+@media (max-width: 560px) { .v { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+.v p { margin: 0; max-width: 70ch; }
+.v .src { display: block; margin-top: 3px; }
+.empty { color: var(--muted); margin: 0; }
+.models { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 560px; }
+th, td { text-align: left; padding: 8px 8px 8px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { font-size: 14px; color: var(--muted); font-weight: 600; }
+hr.div { border: 0; border-top: 1px solid var(--line); margin: 4px 0 0; }
+.nav-row { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+.btn { font: inherit; font-weight: 600; cursor: pointer; border-radius: 6px; padding: 10px 16px; min-height: 44px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); }
+.btn:hover { background: var(--code-bg); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn:disabled { opacity: .5; cursor: default; }
+.summary-list { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.summary-list li { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 9px 0; border-top: 1px solid var(--line); }
+.summary-list li:last-child { border-bottom: 1px solid var(--line); }
+.summary-list .right { display: flex; gap: 14px; align-items: center; }
+pre.out { white-space: pre-wrap; font-family: var(--f-mono); font-size: 13.5px; line-height: 1.5; background: var(--code-bg); border-radius: 6px; padding: 14px; max-height: 340px; overflow: auto; margin: 0; }
+footer { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 15px; color: var(--muted); max-width: 80ch; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="course">CSI 330 Machine Learning, Fall 2026</p>
+    <h1>Project A Training Wheels</h1>
+    <p class="lede">Keep this open next to your notebook and work through the steps in order. Each step lists what to do in the notebook, asks what you got, and checks it against the project specification, the lectures, and numbers computed from the course data files. It never does a step for you.</p>
+    <ul class="key" aria-label="What the labels mean">
+      <li><span class="chip good">Looks good</span></li><li><span class="chip check">Check this</span></li><li><span class="chip work">Needs work</span></li><li><span class="chip unk">Can't verify</span></li>
+    </ul>
+    <details class="trust">
+      <summary>How far to trust these checks</summary>
+      <dl>
+        <dt>Computed from the data files</dt><dd>Class shares, majority-class accuracy and the Dummy baseline ranges, for an 80/20 split with 5-fold cross-validation on all rows. If you sample rows or score differently, expect small differences.</dd>
+        <dt>Definitions and arithmetic</dt><dd>Whether a number is in range, beats the baseline, or is above chance. Reliable, as long as you type the numbers your notebook printed.</dd>
+        <dt>Rules of thumb</dt><dd>Simplified cut-offs from the lectures, such as "a difference smaller than one fold standard deviation cannot be ranked". Good guides, not statistical tests, and labelled wherever they are used.</dd>
+        <dt>Your yes/no answers</dt><dd>The page takes your word for them. It cannot see your code.</dd>
+        <dt>Your writing</dt><dd>It counts words and spots common jargon. It never judges whether your reasoning is right; those checks say <b>Can't verify</b>.</dd>
+      </dl>
+      <p class="bottom">This page never sees your notebook, and nothing here is a grade. If it disagrees with <b>ProjectA.pdf</b>, the PDF wins.</p>
+    </details>
+  </header>
+
+  <div class="layout">
+    <nav class="rail" id="rail" aria-label="Steps"></nav>
+    <main class="pane" id="pane"></main>
+  </div>
+
+  <footer>Your entries are saved only in this browser, on this device: a different laptop or browser starts empty, and teammates do not see each other's entries. Nothing is sent anywhere, including to your instructor; submit your notebook and memo on Canvas as usual. This page checks the process, not your score: Project A has no points for accuracy.</footer>
+</div>
+
+<script>
+(() => {
+"use strict";
+// ---------- Verified reference facts ----------
+// Rows, class shares and Dummy ranges were computed from the files in the course Data folder on 2026-11-11.
+// Dummy ranges: 20 random 80/20 train/test splits, each scored with 5-fold shuffled CV on the training part.
+const DATA = {
+  bank: { name: "Bank Marketing", file: "bank_marketing.csv", rows: 41188, ordered: true,
+    tasks: { y: { label: "y: client subscribes (yes = positive)", type: "clf", pos: 0.1127, maj: 0.8873 } },
+    facts: ["41,188 calls; 11.3% of clients said yes.", "Semicolon-separated: pd.read_csv(..., sep=\";\").", "Missing values are written as \"unknown\".", "The file is ordered by date, May 2008 to November 2010 (bank_marketing_names.txt)."] },
+  hotels: { name: "Hotel Booking Demand", file: "hotel_bookings.csv", rows: 119390, ordered: false,
+    tasks: { is_canceled: { label: "is_canceled: booking cancelled (1 = positive)", type: "clf", pos: 0.3704, maj: 0.6296 },
+             adr: { label: "adr: average daily rate (regression)", type: "reg", dummy: { mae: [36.24, 36.53], rmse: [48.10, 51.03], r2: [-0.0001, 0.0] } } },
+    facts: ["119,390 bookings; 37.0% were cancelled.", "adr ranges from −6.38 to 5,400; its mean is 101.83.", "Missing values appear as NULL, Undefined and empty cells.", "About a quarter of the rows are exact duplicates of another row (spec)."] },
+  diabetes: { name: "Diabetes 130-US Hospitals", file: "diabetes_130_hospitals.csv", rows: 101766, ordered: false,
+    tasks: { readmitted_lt30: { label: "readmitted == \"<30\": readmitted within 30 days (positive)", type: "clf", pos: 0.1116, maj: 0.8884 } },
+    facts: ["101,766 hospital stays; 11.2% readmitted within 30 days.", "Missing values are written as \"?\".", "In A1Cresult and max_glu_serum, None means the test was not done.", "Many patients have more than one stay (patient_nbr) (spec)."] },
+  garment: { name: "Garment Worker Productivity", file: "garment_productivity.csv", rows: 1197, ordered: false,
+    tasks: { actual_productivity: { label: "actual_productivity (regression)", type: "reg", dummy: { mae: [0.1317, 0.1382], rmse: [0.1712, 0.1775], r2: [-0.0136, -0.0017] } } },
+    facts: ["1,197 team-days; mean actual_productivity 0.735 (std 0.175).", "wip is missing in 42% of rows (spec).", "Small dataset: fold-to-fold spread will be wide (spec)."] }
+};
+const MISSING_CODE = { bank: "`\"unknown\"`", hotels: "`\"NULL\"`, `\"Undefined\"` and empty cells", diabetes: "`\"?\"`", garment: "empty cells (in `wip`)" };
+const METRICS = {
+  clf: [ ["accuracy","Accuracy"], ["precision","Precision"], ["recall","Recall"], ["f1","F1"], ["roc_auc","ROC AUC"] ],
+  reg: [ ["mae","MAE"], ["rmse","RMSE"], ["r2","R²"] ]
+};
+const SCORING = { accuracy: "accuracy", precision: "precision", recall: "recall", f1: "f1", roc_auc: "roc_auc", mae: "neg_mean_absolute_error", rmse: "neg_root_mean_squared_error", r2: "r2" };
+const LOWER_BETTER = new Set(["mae","rmse"]);
+const FAMILIES = {
+  clf: ["k-NN", "Logistic regression", "Gaussian naive Bayes"],
+  reg: ["Linear regression", "Ridge regression", "k-NN regression"]
+};
+const LEVEL_ORDER = { work: 4, check: 3, unk: 2, good: 1 };
+const LEVEL_LABEL = { good: "Looks good", check: "Check this", work: "Needs work", unk: "Can't verify" };
+const GENERIC = /^(people|person|users?|everyone|the public|anyone|someone|stakeholders?|customers?|clients?|the company|companies|businesses|management|managers?|staff|employees|doctors?|hospitals?|banks?|hotels?|factories|the factory)$/i;
+
+// ---------- State ----------
+const KEY = "projA-training-wheels-v1";
+let S = {};
+try { S = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { S = {}; }
+if (!S.models) S.models = [{},{},{},{}];
+if (!S.done) S.done = {};
+// Earlier versions had one stakeholder box and one decision box.
+if (S.stakeholder && !S.role) S.role = S.stakeholder;
+if (S.decision && !S.decWith) S.decWith = S.decision;
+let current = 0;
+try { current = Number(localStorage.getItem(KEY + ":step")) || 0; } catch (e) {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); localStorage.setItem(KEY + ":step", String(current)); } catch (e) {} }
+
+const num = v => (v === "" || v === undefined || v === null || isNaN(Number(v))) ? null : Number(v);
+const words = t => (t || "").trim().split(/\s+/).filter(Boolean).length;
+const fmt = (x, d = 4) => { if (x === null || x === undefined || isNaN(Number(x))) return "—"; const t = Number(x).toFixed(d); return t.includes(".") ? t.replace(/0+$/, "").replace(/\.$/, "") : t; };
+const ds = () => DATA[S.dataset];
+const task = () => ds() && S.target ? ds().tasks[S.target] : null;
+const ttype = () => task() ? task().type : null;
+const lowerBetter = () => LOWER_BETTER.has(S.metric);
+const metricName = () => { const t = ttype(); const m = t && METRICS[t].find(x => x[0] === S.metric); return m ? m[1] : "your metric"; };
+const scoring = () => S.metric ? "`scoring=\"" + SCORING[S.metric] + "\"`" : "your `scoring=` string";
+const rowsUsed = () => { const s = num(S.sample); return s && ds() && s < ds().rows ? s : ds() ? ds().rows : null; };
+const sampled = () => { const s = num(S.sample); return !!(s && ds() && s < ds().rows); };
+const V = (level, text, src) => ({ level, text, src });
+const R = (level, text, src) => ({ level, text, src, rule: true });   // rule of thumb, labelled as such
+const PRE = text => ({ level: "unk", text, pre: true });
+const no = id => STEPS.findIndex(s => s.id === id) + 1;
+const stepRef = (...ids) => ids.length === 1 ? `step ${no(ids[0])}` : `steps ${ids.map(no).join(" and ")}`;
+
+function stakeholderBox() {
+  if (!S.role && !S.decWith) return null;
+  const who = (S.role || "your stakeholder") + (S.org ? ", " + S.org : "");
+  const items = [`Who: ${who}`];
+  if (S.decNow) items.push(`Today, without a model: ${S.decNow}`);
+  if (S.decWith) items.push(`With your prediction: ${S.decWith}`);
+  return { title: `Your stakeholder · from ${stepRef("task")}`, items };
+}
+
+// ---------- Steps ----------
+// Order = the order you actually work in the notebook. Field ids never change, so saved entries survive reordering.
+const STEPS = [
+ { id: "task", phase: "Frame and set up", name: "Dataset and stakeholder", src: "ProjectA.pdf · dataset menu, Part 1",
+   why: "Pick your dataset and target from the menu, look at the data, and say who would use the prediction to make what decision.",
+   todo: () => {
+     const d = S.dataset, t = [];
+     t.push(d === "bank" ? "Load the file with `pd.read_csv(DATA / \"bank_marketing.csv\", sep=\";\")` and print `df.shape`." : "Load your file with `pd.read_csv` and print `df.shape`. Does the row count match the facts box here?");
+     t.push("Look at the target: `value_counts(normalize=True)` for classification, `describe()` for regression.");
+     t.push(d === "garment" ? "Count the missing values in each column with `df.isna().sum()`." : d ? `Count the missing values, including this dataset's own codes for them: ${MISSING_CODE[d]}. \`df.isna().sum()\` alone does not see a code written as text.` : "Count the missing values, including the dataset's own codes for them (the menu lists them). `df.isna().sum()` alone does not see a code written as text.");
+     if (d === "bank") t.push("Read the description of every column in `bank_marketing_names.txt` before you choose your features.");
+     else if (d === "diabetes") t.push("Read what each `discharge_disposition_id` code means in `diabetes_130_hospitals_id_codes.csv` before you trust every row's target.");
+     else if (d === "hotels") t.push("Read each column's name and ask: would we know this on the day the booking is made?");
+     else if (d === "garment") t.push("Look at which rows `wip` is missing in, not just how many.");
+     t.push("In a Markdown cell at the top of the notebook (Part 1), name who uses the prediction and what decision it supports.");
+     return t;
+   },
+   fields: () => [
+     { id: "dataset", type: "select", label: "Dataset", options: [["","Choose…"], ...Object.entries(DATA).map(([k,d]) => [k, d.name])] },
+     { id: "target", type: "select", label: "Target", show: () => !!ds(), options: () => [["","Choose…"], ...Object.entries(ds().tasks).map(([k,t]) => [k, t.label])] },
+     { id: "role", type: "text", label: "Who uses the prediction? (their role)", hint: "A job title, e.g. discharge planner, revenue manager." },
+     { id: "org", type: "text", label: "Where do they work?", hint: "e.g. a regional hospital, a city hotel." },
+     { id: "decNow", type: "textarea", label: "What do they do today, without your model?", hint: "One sentence about the decision as it is made now.", wide: true },
+     { id: "decWith", type: "textarea", label: "What would they do differently with your prediction?", hint: "One or two sentences: which action changes, for which cases.", wide: true }
+   ],
+   facts: () => ds() ? { title: ds().name + " · from the course data file", items: ds().facts } : null,
+   check() {
+     const out = [];
+     if (!S.dataset) return out;
+     if (!S.target) { out.push(V("work","Choose a target column. The menu lists the tasks the spec allows for this dataset.","ProjectA.pdf · dataset menu")); return out; }
+     out.push(V("good", `${task().type === "clf" ? "Classification" : "Regression"} task on ${ds().name}, ${ds().rows.toLocaleString()} rows.`, "computed from " + ds().file));
+     const role = (S.role || "").trim();
+     if (!role) out.push(V("work","Name the role of the person who would use this prediction. The memo has to be addressed to them.","ProjectA.pdf · decision memo"));
+     else if (GENERIC.test(role)) out.push(V("check",`"${role}" is a group, not a role. Name one job whose decision this changes, e.g. a hospital's discharge planner.`,"ProjectA.pdf · decision memo"));
+     else out.push(V("unk",`A role is named: "${role}". The tool only checks that something is written; whether this person really makes this decision is for you and your instructor to judge.`));
+     if (role && !(S.org || "").trim()) out.push(V("check","Say where they work. A discharge planner at a hospital and one at a nursing home make different decisions."));
+     if (words(S.decNow) < 5) out.push(V("work","Describe what they do today, without a model. Your model has to improve on that, not on nothing.","ProjectA.pdf · Part 1"));
+     if (words(S.decWith) < 8) out.push(V("work","Describe what they would do differently because of the prediction: which action, for which cases.","ProjectA.pdf · Part 1"));
+     else if ((S.decWith || "").trim().toLowerCase() === (S.decNow || "").trim().toLowerCase()) out.push(V("check","Today and with the prediction read the same. What changes?"));
+     else if (words(S.decNow) >= 5) out.push(V("unk","Both sentences are written. Whether this is a realistic decision for this stakeholder is a judgment this tool cannot make."));
+     return out;
+   } },
+ { id: "metric", phase: "Frame and set up", name: "The metric", src: "ProjectA.pdf · Part 1; Lectures 4.1–4.2",
+   why: "Choose your metric from what each kind of mistake costs your stakeholder, not from habit.",
+   todo: () => {
+     const t = ttype(), out = [];
+     if (t !== "reg") out.push("Make the target 0/1, with 1 for the class you care about (" + (S.dataset === "bank" ? "`y == \"yes\"`" : S.dataset === "diabetes" ? "`readmitted == \"<30\"`" : "the positive class") + "), so precision and recall measure that class.");
+     out.push(t === "reg" ? "Write down what over-predicting and under-predicting each cost your stakeholder, and whether one big miss is worse than several small ones." : "Write down what a false positive and a false negative each cost your stakeholder, in their world (money, time, a missed patient).");
+     out.push("Pick one primary metric that follows from those costs. You will pass it to every `cross_val_score` as " + scoring() + ".");
+     if (t === "reg" || !t) out.push("Error scorers in scikit-learn are negative (`neg_mean_absolute_error`): flip the sign before you report or compare them.");
+     out.push("Write the reason in a Part 1 Markdown cell, in your stakeholder's terms.");
+     return out;
+   },
+   facts: stakeholderBox,
+   fields: () => {
+     const t = ttype(); if (!t) return [];
+     const f = [{ id: "metric", type: "select", label: "Primary metric", options: [["","Choose…"], ...METRICS[t]] }];
+     if (t === "clf") f.push(
+       { id: "worse", type: "select", label: "Which mistake costs more?", options: [["","Choose…"],["fn","Missing a real positive (false negative)"],["fp","A false alarm (false positive)"],["equal","About the same"]] },
+       { id: "ratio", type: "number", label: "Roughly how many times worse?", hint: "Your estimate, e.g. 3. Use 1 if equal.", step: "any", min: "1" });
+     else f.push(
+       { id: "bigmiss", type: "select", label: "Does one big miss matter more than several small ones?", options: [["","Choose…"],["yes","Yes, big misses are much worse"],["no","No, every unit of error costs the same"]] },
+       { id: "overunder", type: "select", label: "Is over-predicting as bad as under-predicting?", options: [["","Choose…"],["same","About the same"],["over","Over-predicting is worse"],["under","Under-predicting is worse"]] });
+     f.push({ id: "metricWhy", type: "textarea", label: "Why this metric, in your stakeholder's terms", wide: true });
+     return f;
+   },
+   check() {
+     const out = [], t = ttype();
+     if (!t) return [PRE(`Finish ${stepRef("task")} first: the metric depends on the task.`)];
+     if (!S.metric) return out;
+     if (t === "clf") {
+       const tk = task(), ratio = num(S.ratio);
+       const unequal = S.worse === "fn" || S.worse === "fp" || (ratio !== null && ratio >= 1.5);
+       if (S.metric === "accuracy") {
+         if (tk.pos < 0.2) out.push(V("work",`Predicting the majority class every time already scores accuracy ${fmt(tk.maj,3)} on this data, because only ${fmt(tk.pos*100,1)}% of rows are positive. Accuracy will look high while missing most positives.`,"computed from " + ds().file + "; Lecture 4.1"));
+         if (unequal) out.push(V("work","You said the two mistakes cost different amounts, but accuracy counts them as equally bad. Argue for accuracy explicitly, or choose a metric that matches the costs.","ProjectA.pdf · Part 1"));
+         if (!out.length) out.push(V("check","Accuracy treats both mistakes as equally bad. That fits only if they really cost the same; say why they do.","Lecture 4.1"));
+       } else if (S.metric === "precision") {
+         out.push(S.worse === "fn" ? V("work","Precision ignores the positives you miss, and you said missing a positive is the worse mistake. Recall measures exactly that.","Lecture 4.1") : V("good","Precision fits when false alarms are the costly mistake. Report recall too, so the reader sees what you miss.","Lecture 4.1"));
+       } else if (S.metric === "recall") {
+         out.push(S.worse === "fp" ? V("work","Recall ignores false alarms, and you said they are the worse mistake. Precision measures that.","Lecture 4.1") : V("good","Recall fits when missing a positive is the costly mistake. Report precision too, so the reader sees how many alarms are false.","Lecture 4.1"));
+       } else if (S.metric === "f1") {
+         out.push(ratio !== null && ratio >= 3 ? R("check",`F1 weighs precision and recall equally, but you estimated one mistake is ${fmt(ratio,1)}× worse. Say why an equal weighting is still right, or choose the metric that matches the costlier mistake.`,"Lecture 4.1") : V("good","F1 balances precision and recall; that fits when both mistakes matter similarly.","Lecture 4.1"));
+       } else if (S.metric === "roc_auc") {
+         out.push(V("good","ROC AUC measures how well the model ranks positives above negatives, at every threshold. Chance level is 0.5.","Lecture 4.1"));
+         out.push(V("check","AUC does not choose a threshold for you. Your memo still has to say at which threshold the model would be used, and what that costs.","Lecture 4.1"));
+       }
+       if (!S.worse) out.push(V("work","Say which mistake costs more. Your metric has to follow from that.","ProjectA.pdf · Part 1"));
+     } else {
+       if (S.metric === "rmse") out.push(S.bigmiss === "no" ? V("check","RMSE punishes big misses much more than small ones, but you said every unit of error costs the same. MAE matches that.","Lecture 4.2") : V("good","RMSE punishes big misses more, which matches what you said.","Lecture 4.2"));
+       if (S.metric === "mae") out.push(S.bigmiss === "yes" ? V("check","MAE counts a big miss no more than several small ones, but you said big misses are much worse. RMSE matches that.","Lecture 4.2") : V("good","MAE is in the target's own units and treats every unit of error the same.","Lecture 4.2"));
+       if (S.metric === "r2") out.push(V("check","R² has no units, so it cannot tell your stakeholder how far off a prediction is. Consider MAE or RMSE as the primary metric and R² as a supporting one.","Lecture 4.2"));
+       if (S.overunder === "over" || S.overunder === "under") out.push(V("check","MAE, RMSE and R² treat over- and under-predicting the same. Say how you will show the direction of errors (for example, the mean of y − ŷ, or a residual plot by slice).","Lecture 4.2"));
+       if (!S.bigmiss) out.push(V("work","Answer whether big misses matter more. Your metric has to follow from that.","ProjectA.pdf · Part 1"));
+     }
+     if (words(S.metricWhy) < 20) out.push(V("work","Explain the choice in your stakeholder's terms, in a few sentences.","ProjectA.pdf · Part 1"));
+     else out.push(V("unk","Your explanation is written. Whether the reasoning holds up is for you and your instructor to judge; this tool cannot verify it."));
+     return out;
+   } },
+ { id: "split", phase: "Frame and set up", name: "Split off the test set", src: "ProjectA.pdf · requirements 2–3; Lecture 5.1",
+   why: "Split off a test set before anything else, and fix the cross-validation you will use for every comparison from here on.",
+   todo: () => {
+     const t = ttype(), d = S.dataset, out = [];
+     if (d === "hotels" || d === "diabetes") out.push("Optional: if models are slow on Colab, take a random sample of 10,000–20,000 rows with a fixed `random_state`, and say so in the notebook.");
+     if (d === "hotels") out.push("Count exact duplicate rows (`df.duplicated().sum()`) and decide what they mean before you split. Write the decision down.");
+     else if (d === "diabetes") out.push("Count how many stays belong to a patient seen before (`df[\"patient_nbr\"].duplicated().sum()`) and decide what that means for the split. Write the decision down.");
+     else out.push("Check whether any rows repeat (`df.duplicated().sum()`). Write down what you found.");
+     out.push(t === "reg" ? "`X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=…)`" : "`X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=…, stratify=y)`");
+     out.push(t === "reg" ? "Define the cross-validation once and reuse it everywhere: `cv = KFold(n_splits=5, shuffle=True, random_state=…)`." : "Define the cross-validation once and reuse it everywhere: `cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=…)`.");
+     out.push(`From now on, do not touch \`X_test\` or \`y_test\` until ${stepRef("test")}.`);
+     return out;
+   },
+   fields: () => ttype() ? [
+     { id: "sample", type: "number", label: "Rows used, if you sampled", hint: "Leave empty if you used every row.", step: "1", min: "1" },
+     { id: "testSize", type: "number", label: "Test-set size (%)", step: "any", min: "1", max: "60" },
+     { id: "seed", type: "number", label: "Random seed you set", step: "1" },
+     { id: "stratify", type: "select", label: "Stratified split?", show: () => ttype() === "clf", options: [["","Choose…"],["yes","Yes"],["no","No"]] },
+     { id: "folds", type: "number", label: "Number of CV folds", step: "1", min: "2" },
+     { id: "shuffle", type: "select", label: "Does your CV shuffle?", hint: "cv=5 on its own does not.", options: [["","Choose…"],["yes","Yes, KFold/StratifiedKFold with shuffle=True"],["no","No"]] },
+     { id: "repeats", type: "textarea", label: "Rows that belong together (same patient, duplicated bookings…): what did you find, and what did you do?", wide: true }
+   ] : [],
+   check() {
+     const out = [];
+     if (!ttype()) return [PRE(`Finish ${stepRef("task")} first.`)];
+     const ts = num(S.testSize), seed = num(S.seed), k = num(S.folds), smp = num(S.sample);
+     if (smp !== null) { if (smp >= ds().rows) out.push(V("check",`The file has ${ds().rows.toLocaleString()} rows; leave this empty if you used all of them.`,"computed from " + ds().file)); else if (S.seed === undefined || S.seed === "") out.push(V("work","A sample needs a fixed seed, or nobody can reproduce it.","ProjectA.pdf · dataset menu")); else out.push(V("good",`A sample of ${smp.toLocaleString()} rows. Say so in the notebook.`,"ProjectA.pdf · dataset menu")); }
+     if (ts !== null) out.push(ts >= 10 && ts <= 30 ? R("good",`A ${fmt(ts,0)}% test set (about ${Math.round(rowsUsed() * ts / 100).toLocaleString()} rows) is within the usual range.`,"ProjectA.pdf · requirement 2 (20% suggested)") : R("check",`${fmt(ts,0)}% is unusual. The spec suggests 20%; say why you chose this.`,"ProjectA.pdf · requirement 2"));
+     if (S.seed === undefined || S.seed === "") out.push(V("work","Set and state a random seed, so someone else gets your numbers.","ProjectA.pdf · what to submit"));
+     else if (seed !== null) out.push(V("good","A seed is set."));
+     if (ttype() === "clf") { if (S.stratify === "no") out.push(V("work",`Stratify the split for classification, so both sides keep the ${fmt(task().pos*100,1)}% positive share.`,"ProjectA.pdf · requirement 2")); else if (S.stratify === "yes") out.push(V("good","Stratified.")); }
+     if (k !== null) out.push(k >= 3 && k <= 10 ? R("good",`${k}-fold cross-validation.`) : R("check",`${k} folds is unusual; 5 or 10 is typical. Say why.`,"Lecture 5.1"));
+     if (S.shuffle === "no") out.push(ds().ordered ? V("work","This file is ordered by date, so unshuffled folds each cover a different period. Shuffle (or argue for a time-ordered split on purpose).","bank_marketing_names.txt; Lecture 5.1") : V("check","Without shuffling, folds follow the file's order. Check whether the file is sorted by anything before you rely on it.","Lecture 5.1"));
+     else if (S.shuffle === "yes") out.push(V("good","Shuffled folds."));
+     if ((S.dataset === "diabetes" || S.dataset === "hotels") && words(S.repeats) < 6) out.push(V("check", S.dataset === "diabetes" ? "The spec flags that many patients have more than one stay. Say what you found and what you did about it." : "The spec flags that about a quarter of rows are exact duplicates. Say what that means for your split.","ProjectA.pdf · dataset menu"));
+     else if (words(S.repeats) >= 6) out.push(V("unk","Your decision about repeated rows is written. Whether it is the right one is for you to defend."));
+     return out;
+   } },
+ { id: "baseline", phase: "Frame and set up", name: "The baseline", src: "ProjectA.pdf · Part 1",
+   why: "A Dummy model sets the score your real models must beat. Score it exactly the way you will score your real models.",
+   todo: () => [
+     ttype() === "reg" ? "`dummy = DummyRegressor(strategy=\"mean\")`" : "`dummy = DummyClassifier(strategy=\"most_frequent\")`",
+     "`cross_val_score(dummy, X_train, y_train, cv=cv, " + (S.metric ? "scoring=\"" + SCORING[S.metric] + "\"" : "scoring=…") + ")`: the same `cv` and the same scoring you will use for every real model.",
+     "Print the mean and the standard deviation of the fold scores" + (lowerBetter() ? ", and flip the sign of the mean." : "."),
+     "Write the baseline into Part 1 and enter the mean here."
+   ],
+   fields: () => {
+     const t = ttype(); if (!t) return [];
+     return [
+       { id: "dummy", type: "select", label: "Baseline model", options: t === "clf" ? [["","Choose…"],["most_frequent","DummyClassifier(strategy=\"most_frequent\")"],["other","Something else"]] : [["","Choose…"],["mean","DummyRegressor(strategy=\"mean\")"],["other","Something else"]] },
+       { id: "base", type: "number", label: `Its ${metricName()}, mean over your CV folds`, hint: "Paste the number your code printed.", step: "any" },
+       { id: "baseHow", type: "select", label: "How did you score it?", options: [["","Choose…"],["cv","Cross-validation on the training set"],["split","One split of the training set"],["test","On the test set"]] }
+     ];
+   },
+   check() {
+     const out = [], t = ttype(), b = num(S.base), m = S.metric;
+     if (!t || !m) return [PRE(`Finish ${stepRef("task","metric")} first.`)];
+     if (S.baseHow === "test") out.push(V("work","Do not use the test set for the baseline. The test set is touched exactly once, at the end.","ProjectA.pdf · requirement 2"));
+     if (S.baseHow === "split") out.push(V("check","Score the baseline with the same cross-validation as your real models, so the comparison is fair.","ProjectA.pdf · Part 1"));
+     if (S.dummy === "other") out.push(V("check","The spec asks for DummyClassifier(\"most_frequent\") or DummyRegressor(\"mean\"). Another baseline is fine to add, but report one of these too.","ProjectA.pdf · Part 1"));
+     if (b === null) return out;
+     if (t === "clf" && S.dummy === "most_frequent") {
+       const exp = { accuracy: task().maj, precision: 0, recall: 0, f1: 0, roc_auc: 0.5 }[m];
+       const tol = m === "accuracy" ? 0.01 : 0.005;
+       if (Math.abs(b - exp) <= tol) out.push(V("good",`Matches what always predicting the majority class gives on this data: ${metricName()} ≈ ${fmt(exp,4)}.`, m === "accuracy" ? "computed from " + ds().file : "follows from the definition: this model never predicts the positive class"));
+       else out.push(V("work",`Always predicting the majority class should give ${metricName()} ≈ ${fmt(exp,4)} here, and you entered ${fmt(b,4)}. Check which class you set as positive, that y is the right column, and the scoring argument.`, m === "accuracy" ? "computed from " + ds().file : "follows from the definition"));
+       if (m === "precision" || m === "f1") out.push(V("check","scikit-learn prints a warning and reports 0 for this baseline, because it never predicts a positive. That is expected; say so in your notebook.","scikit-learn behaviour"));
+     } else if (t === "reg" && S.dummy === "mean") {
+       const r = task().dummy[m];
+       const lo = m === "r2" ? -0.05 : r[0] * 0.97, hi = m === "r2" ? 0.005 : r[1] * 1.03;
+       const note = sampled() ? " You sampled rows, so a somewhat different number is expected." : "";
+       if (m !== "r2" && b < 0) out.push(V("work",`An error cannot be negative. scikit-learn's scorer returns −${metricName()}; flip the sign.`,"scikit-learn behaviour"));
+       else if (b >= lo && b <= hi) out.push(R("good",`In the range the mean-predicting baseline gives on this data: ${fmt(r[0],4)} to ${fmt(r[1],4)} across 20 random splits (with a 3% margin).`,"computed from " + ds().file + " (80/20 split, 5-fold CV on training)"));
+       else out.push(R("check",`Predicting the training mean gave ${metricName()} between ${fmt(r[0],4)} and ${fmt(r[1],4)} across 20 random splits; you entered ${fmt(b,4)}.${note} A different split or scoring explains small differences; a large one usually means the wrong column or units.`,"computed from " + ds().file + " (80/20 split, 5-fold CV on training)"));
+       if (m === "r2" && b > 0.01) out.push(V("work","A model that predicts the mean should score R² at or just below 0. A clearly positive R² for it points to a bug.","Lecture 4.2"));
+     } else out.push(V("unk","Only the two Dummy baselines from the spec have reference numbers here. This one cannot be verified."));
+     return out;
+   } },
+ { id: "useful", phase: "Frame and set up", name: "Threshold for useful", src: "ProjectA.pdf · Part 1",
+   why: "Decide, before you model, what score would make this model worth using. If you cannot, the model has no purpose.",
+   todo: () => [
+     "Ask: what " + metricName() + " would your stakeholder need before they changed what they do?",
+     "Write the number and the reason into Part 1, before you build any real model.",
+     "Leave Part 1 as written from here on. If you change your mind later, add a note at the end of the notebook saying what changed and why."
+   ],
+   facts: stakeholderBox,
+   fields: () => ttype() ? [
+     { id: "useful", type: "number", label: `A ${metricName()} this good would be worth using`, step: "any" },
+     { id: "usefulWhy", type: "textarea", label: "Why that number, for your stakeholder", wide: true }
+   ] : [],
+   check() {
+     const out = [], u = num(S.useful), b = num(S.base), m = S.metric;
+     if (!m) return [PRE(`Finish ${stepRef("metric")} first.`)];
+     if (u === null) return out;
+     const bounded = ["accuracy","precision","recall","f1","roc_auc"].includes(m);
+     if (bounded && (u < 0 || u > 1)) out.push(V("work",`${metricName()} runs from 0 to 1. Enter it as a proportion, e.g. 0.75.`,"definition"));
+     if (m === "r2" && u > 1) out.push(V("work","R² cannot be above 1.","definition"));
+     if ((m === "mae" || m === "rmse") && u < 0) out.push(V("work","An error cannot be negative.","definition"));
+     if (b !== null) {
+       const better = lowerBetter() ? u < b : u > b;
+       if (!better) out.push(V("work",`Your threshold (${fmt(u,4)}) is no better than the Dummy baseline (${fmt(b,4)}). A useful model has to beat a model that ignores every feature.`,"ProjectA.pdf · Part 1"));
+       else { const rel = Math.abs(u - b) / Math.max(Math.abs(b), 1e-9);
+         out.push(rel < 0.02 ? R("check","Your threshold is less than 2% better than the baseline. Would your stakeholder really act on that small a difference?") : V("good",`Better than the baseline (${fmt(b,4)}), in the right direction for ${metricName()} (${lowerBetter() ? "lower is better" : "higher is better"}).`)); }
+     } else out.push(V("unk",`Enter your baseline in ${stepRef("baseline")} so this can be compared with it.`));
+     if (words(S.usefulWhy) < 12) out.push(V("work","Say why that number, in terms your stakeholder would recognize."));
+     else out.push(V("unk","Whether your stakeholder would accept this threshold is a judgment this tool cannot verify."));
+     return out;
+   } },
+ { id: "missing", phase: "Build and compare", name: "Missing data", src: "ProjectA.pdf · requirement 4; Lecture 5.3",
+   why: "Choose one way of handling missing values. It will go inside the pipeline you build in the next step.",
+   todo: () => {
+     const d = S.dataset, out = [];
+     out.push(d && d !== "garment" ? `Decide what to do with ${MISSING_CODE[d]}: turn them into real missing values (\`df.replace(…, np.nan)\`), or keep them as their own category. Replacing a code is safe before the split, because nothing is learned from the data.` : "Decide which values count as missing. Replacing a text code with `np.nan` is safe before the split, because nothing is learned from the data.");
+     if (d === "diabetes") out.push("Decide how to treat `None` in `A1Cresult` and `max_glu_serum`: it means the test was not done, which is information.");
+     out.push("Choose one strategy: drop rows, `SimpleImputer(strategy=\"median\")` (or `\"mean\"`, `\"most_frequent\"`), or add `add_indicator=True` for a missingness column.");
+     out.push("Do not fill anything on the whole DataFrame. The imputer goes inside the `ColumnTransformer` (next step), so it is fit on each fold's training rows only.");
+     out.push("Write down where data is missing (with numbers), and what happens to the next row that arrives with a missing value.");
+     return out;
+   },
+   fields: () => ttype() ? [
+     { id: "mStrat", type: "select", label: "Strategy", options: [["","Choose…"],["drop","Drop rows with missing values"],["simple","Fill with mean / median / most frequent"],["indicator","Fill, plus a missingness indicator column"],["category","Keep the missing code as its own category"],["other","Other"]] },
+     { id: "mWhere", type: "textarea", label: "Where is data missing in your dataset, and how much?", wide: true },
+     { id: "mNext", type: "textarea", label: "What happens to the next row that arrives with a missing value?", wide: true }
+   ] : [],
+   check() {
+     const out = [];
+     if (!ttype()) return [PRE(`Finish ${stepRef("task")} first.`)];
+     if (!S.mStrat) return out;
+     if (S.mStrat === "drop") out.push(V("check","After dropping rows, the model cannot predict a new row with a missing value, and CV scores with and without dropping average over different rows, so they are not directly comparable. Defend this explicitly.","Lecture 5.3"));
+     else out.push(V("good","A strategy that can handle the next row with a missing value."));
+     if (S.dataset === "garment" && S.mStrat === "simple") out.push(V("check","Before filling wip with one number, look at which rows it is missing in. The spec asks you to.","ProjectA.pdf · dataset menu"));
+     if (S.dataset === "bank" && S.mStrat !== "category") out.push(V("check","Here missing values are written as \"unknown\", not as empty cells. Say whether you converted them to missing or kept them as a category.","bank_marketing_names.txt"));
+     if (S.dataset === "diabetes") out.push(V("check","Remember that None in A1Cresult and max_glu_serum means the test was not done. Say how you treated it.","ProjectA.pdf · dataset menu"));
+     if (words(S.mWhere) < 8) out.push(V("work","Describe where values are missing and how many, with numbers from your notebook."));
+     else if (!/\d/.test(S.mWhere)) out.push(V("check","Include the numbers: how many values, or what share, in which columns."));
+     if (words(S.mNext) < 8) out.push(V("work","Answer Lecture 5.3's question: what happens to the next row with a missing value?","Lecture 5.3"));
+     else out.push(V("unk","Your answer is written; whether it holds up is for your instructor to judge."));
+     return out;
+   } },
+ { id: "pipeline", phase: "Build and compare", name: "Build the pipeline", src: "ProjectA.pdf · requirement 4; Lecture 5.3",
+   why: "Every imputer, scaler and encoder must be fit inside each fold, never on the full data. Build the pipeline once and use it for every model.",
+   todo: () => [
+     "Go through every column and ask: would we know this value at the moment we make the prediction? Drop the ones we would not, and say why.",
+     "Build a `ColumnTransformer`: numeric columns → imputer + `StandardScaler()`; categorical columns → imputer + `OneHotEncoder(handle_unknown=\"ignore\")`.",
+     "Put it and a model in one `Pipeline([(\"prep\", prep), (\"model\", model)])`.",
+     "Fit nothing on the full data or on `X` before the split. Everything is fit through `cross_val_score(...)` or `.fit(X_train, y_train)`."
+   ],
+   fields: () => ttype() ? [
+     { id: "pInside", type: "select", label: "Are imputation, scaling and encoding all inside one Pipeline / ColumnTransformer?", wide: true, options: [["","Choose…"],["yes","Yes, all of them"],["some","Some are done before splitting"],["no","No"]] },
+     { id: "pBefore", type: "select", label: "Is anything fit on the full dataset before the split (a scaler, an imputer, feature selection)?", wide: true, options: [["","Choose…"],["no","No"],["yes","Yes"]] },
+     { id: "postCols", type: "select", label: "Have you asked of every feature: would we know this value at the moment we make the prediction?", wide: true, options: [["","Choose…"],["yes","Yes, and we removed what we would not know"],["no","Not yet"]] }
+   ] : [],
+   check() {
+     const out = [];
+     if (!ttype()) return [PRE(`Finish ${stepRef("task")} first.`)];
+     if (S.pInside === "some" || S.pInside === "no") out.push(V("work","Move every preprocessing step into the Pipeline, so it is fit on each fold's training rows only.","ProjectA.pdf · requirement 4"));
+     else if (S.pInside === "yes") out.push(V("good","You report that all preprocessing is inside the pipeline. (The tool takes your word; it cannot see the code.)"));
+     if (S.pBefore === "yes") out.push(V("work","Anything fit on the full data has already seen the test rows. A scaler fit before the split leaks the test set's mean, and the shuffled-label check cannot see it.","ProjectA.pdf · requirement 4 table"));
+     else if (S.pBefore === "no") out.push(V("good","You report that nothing is fit before the split."));
+     if (S.postCols === "no") out.push(V("work","Do this before modelling: a column filled in after the outcome is known makes any score meaningless.","ProjectA.pdf · dataset menu"));
+     else if (S.postCols === "yes") out.push(V("unk","You report that you checked every column. Whether you caught every column we would not know in time cannot be verified here; the shuffled-label check in a later step catches some of them."));
+     return out;
+   } },
+ { id: "models", phase: "Build and compare", name: "Compare three model families", src: "ProjectA.pdf · requirement 3; Lecture 5.2",
+   why: "Cross-validate at least three families on the same folds. Report the spread across folds, not just the mean.",
+   todo: () => {
+     const t = ttype();
+     return [
+       "Swap three model families into the same pipeline: " + (t === "reg" ? "`LinearRegression()`, `Ridge()`, `KNeighborsRegressor()`." : "`KNeighborsClassifier()`, `LogisticRegression(max_iter=1000)`, `GaussianNB()`."),
+       "Score each with `cross_val_score(pipe, X_train, y_train, cv=cv, " + (S.metric ? "scoring=\"" + SCORING[S.metric] + "\"" : "scoring=…") + ")`: the same `cv` as the baseline.",
+       "Record the mean and the standard deviation of each, and plot the per-fold scores (a box plot).",
+       "Tune one model with `GridSearchCV`. Inside a pipeline the parameter names get the step's prefix: " + (t === "reg" ? "`model__alpha` for ridge, `model__n_neighbors` for k-NN." : "`model__C` for logistic regression, `model__n_neighbors` for k-NN."),
+       "Choose the model you will report. If fold scores overlap, choose on another ground (speed, interpretability, how it fails) and say which."
+     ];
+   },
+   table: true,
+   fields: () => ttype() ? [ { id: "tuned", type: "number", label: "best_score_ of your tuned model (if tuned)", hint: "From GridSearchCV.", step: "any" } ] : [],
+   check() {
+     const out = [], t = ttype();
+     if (!t || !S.metric) return [PRE(`Finish ${stepRef("task","metric")} first.`)];
+     const rows = S.models.map(r => ({ fam: r.fam, mean: num(r.mean), sd: num(r.sd) })).filter(r => r.fam && r.mean !== null);
+     if (!rows.length) return out;
+     const fams = new Set(rows.map(r => r.fam));
+     out.push(fams.size >= 3 ? V("good",`${fams.size} model families compared.`) : V("work",`${fams.size} famil${fams.size === 1 ? "y" : "ies"} so far; the spec asks for at least three.`,"ProjectA.pdf · requirement 3"));
+     if (rows.some(r => r.sd === null)) out.push(V("work","Enter the standard deviation across folds for every model. Without it, differences cannot be judged.","ProjectA.pdf · requirement 3"));
+     if (rows.some(r => r.sd === 0)) out.push(R("check","A fold spread of exactly 0 usually means one split was scored, not k folds. Check your cross_val_score output."));
+     if (lowerBetter() && rows.some(r => r.mean < 0)) out.push(V("work",`An error cannot be negative. scikit-learn's scorer returns −${metricName()}; flip the sign before entering it.`,"scikit-learn behaviour"));
+     const lb = lowerBetter(), sorted = [...rows].sort((a, b) => lb ? a.mean - b.mean : b.mean - a.mean), best = sorted[0], second = sorted[1];
+     if (best && second && best.sd !== null && second.sd !== null) {
+       const diff = Math.abs(best.mean - second.mean), spread = Math.max(best.sd, second.sd);
+       out.push(diff < spread ? R("check",`${best.fam} leads ${second.fam} by ${fmt(diff,4)}, less than the fold spread (${fmt(spread,4)}). Their fold scores overlap, so they cannot be ranked: choose on another ground (speed, interpretability, how it fails) and say which.`,"Lecture 5.2 (ridge vs linear: 3.7 g against spreads of 11–15 g)") : R("good",`${best.fam} leads ${second.fam} by ${fmt(diff,4)}, more than the fold spread (${fmt(spread,4)}).`,"Lecture 5.2"));
+     }
+     const b = num(S.base);
+     if (best && b !== null) {
+       const gain = lb ? b - best.mean : best.mean - b;
+       if (gain <= 0) out.push(V("work",`Your best model (${fmt(best.mean,4)}) does not beat the Dummy baseline (${fmt(b,4)}). That is a finding worth explaining, not hiding; check the pipeline first.`,"ProjectA.pdf · Part 1"));
+       else if (best.sd !== null && gain < best.sd) out.push(R("check",`Your best model beats the baseline by ${fmt(gain,4)}, less than its own fold spread (${fmt(best.sd,4)}).`));
+       else out.push(V("good",`Your best model beats the baseline by ${fmt(gain,4)}.`));
+     }
+     if (best && best.sd !== null) out.push(R("good",`Your noise floor: on this data, a difference smaller than about ${fmt(best.sd,4)} is noise (one fold standard deviation of ${best.fam}). Write that sentence in your notebook.`,"ProjectA.pdf · requirement 3"));
+     const tuned = num(S.tuned);
+     if (tuned !== null) out.push(V("check",`best_score_ (${fmt(tuned,4)}) is optimistic: it is the best of every setting you tried. Say which number goes in your memo, and why.`,"Lecture 5.2 (286 g vs nested 293 g)"));
+     const nu = num(S.useful);
+     if (best && nu !== null) out.push((lb ? best.mean <= nu : best.mean >= nu) ? V("good",`Your best model reaches your threshold for useful (${fmt(nu,4)}).`) : V("unk",`Your best model has not reached your threshold for useful (${fmt(nu,4)}). That is allowed; say so honestly in the memo. There are no points for accuracy.`,"ProjectA.pdf · grading"));
+     return out;
+   } },
+ { id: "shuffle", phase: "Build and compare", name: "Shuffled-label check", src: "ProjectA.pdf · requirement 4; Lecture 5.3",
+   why: "Run your chosen pipeline with the labels shuffled. Nothing should be learnable, so it should score at chance.",
+   todo: () => [
+     "`y_shuffled = np.random.default_rng(0).permutation(y_train)`",
+     "`scores = cross_val_score(your_pipeline, X_train, y_shuffled, cv=cv, " + (S.metric ? "scoring=\"" + SCORING[S.metric] + "\"" : "scoring=…") + ")` with your chosen pipeline, then print `scores.mean()` and `scores.std()`.",
+     ...(S.metric === "recall" || S.metric === "f1" ? ["Run it once more with `scoring=\"roc_auc\"`. " + metricName() + " has no fixed chance level on shuffled labels; ROC AUC's is 0.5."] : []),
+     "Write down three numbers: the shuffled score, chance level for your metric, and the fold standard deviation.",
+     "If the shuffled score is clearly better than chance, something leaks. Find it before you go on.",
+     "Say in the notebook what this check cannot see (the table in ProjectA.pdf)."
+   ],
+   fields: () => ttype() ? [
+     { id: "shufMean", type: "number", label: `Shuffled-label ${metricName()}, mean over folds`, step: "any" },
+     { id: "shufSd", type: "number", label: "…and its standard deviation", step: "any" }
+   ] : [],
+   check() {
+     const out = [];
+     if (!ttype() || !S.metric) return [PRE(`Finish ${stepRef("task","metric")} first.`)];
+     const m = num(S.shufMean), sd = num(S.shufSd);
+     if (m === null) return out;
+     if (lowerBetter() && m < 0) { out.push(V("work",`An error cannot be negative. scikit-learn's scorer returns −${metricName()}; flip the sign.`,"scikit-learn behaviour")); return out; }
+     let chance = null, note = "";
+     if (S.metric === "roc_auc") { chance = 0.5; note = "chance ROC AUC is 0.5"; }
+     else if (S.metric === "r2") { chance = 0; note = "chance R² is about 0 (often slightly negative)"; }
+     else if (S.metric === "accuracy") { chance = task().maj; note = `chance accuracy is at most about the majority-class share, ${fmt(task().maj,4)}`; }
+     else if (S.metric === "precision") { chance = task().pos; note = `with shuffled labels, precision is about the positive share, ${fmt(task().pos,4)}, computed from ${ds().file}`; }
+     else if (S.metric === "recall" || S.metric === "f1") {
+       // Shuffled recall ≈ the share of rows the model flags as positive, which this tool does not know.
+       out.push(V("unk",`With shuffled labels, ${metricName()} depends on how many rows your model flags as positive, so it has no fixed chance level and this tool cannot judge ${fmt(m,4)}. Run the same check with scoring="roc_auc" as well: its chance level is 0.5, so a leak shows up clearly.`,"definition of " + metricName()));
+       out.push(V("check","Whatever the number, a passing check is not a certificate. It cannot see a scaler fit on the wrong rows (heart.csv: 0.506 with the leak, 0.506 without).","ProjectA.pdf · requirement 4 table"));
+       return out;
+     }
+     else { chance = num(S.base); note = chance !== null ? `your Dummy baseline (${fmt(chance,4)}) is the fair comparison: a model that learns nothing does no better than predicting the mean` : ""; }
+     if (chance === null) { out.push(V("unk",`Enter your Dummy baseline in ${stepRef("baseline")} to compare against it.`)); return out; }
+     if (sd === null) { out.push(V("work","Enter the fold standard deviation too. A shuffled score means nothing without it.","ProjectA.pdf · requirement 4")); return out; }
+     const lb = lowerBetter(), gap = lb ? chance - m : m - chance;
+     if (gap > 2 * sd) out.push(R("work",`Shuffled ${metricName()} ${fmt(m,4)} is better than chance by ${fmt(gap,4)}, more than twice the fold spread (${fmt(sd,4)}); ${note}. With the labels shuffled nothing should be learnable, so something leaks. Finding it is part of the project.`,"ProjectA.pdf · requirement 4"));
+     else out.push(R("good",`Shuffled ${metricName()} ${fmt(m,4)} is within twice the fold spread of chance (${note}).`,"ProjectA.pdf · requirement 4"));
+     out.push(V("check","A passing check is not a certificate. It cannot see a scaler fit on the wrong rows (heart.csv: 0.506 with the leak, 0.506 without). Say what the check can and cannot show.","ProjectA.pdf · requirement 4 table"));
+     return out;
+   } },
+ { id: "test", phase: "Test and report", name: "Test set and failures", src: "ProjectA.pdf · requirement 5",
+   why: "Score on the test set once, explain the gap from your CV estimate, then find where the model fails.",
+   todo: () => [
+     "In one clearly marked cell (a heading nobody can miss): fit the chosen pipeline with `.fit(X_train, y_train)`, then score it on `X_test`. This is the first and only place `X_test` appears.",
+     "Put the CV estimate and the test score side by side, and compare the gap with your fold standard deviation.",
+     ttype() === "reg" ? "Break the error down by slices that matter to your stakeholder: group the test rows by a category or a range of the target and compute your metric for each." : "Break it down: `classification_report(y_test, y_pred)` gives precision and recall for every class.",
+     "Name your worst slice and its number, in one sentence.",
+     "Show three real test rows the model gets badly wrong: the features that matter, the truth, the prediction, and one sentence each. At least one should be the expensive kind of mistake."
+   ],
+   fields: () => ttype() ? [
+     { id: "cvMean", type: "number", label: `Chosen model: CV ${metricName()} (mean)`, step: "any" },
+     { id: "cvSd", type: "number", label: "CV standard deviation", step: "any" },
+     { id: "testScore", type: "number", label: `Test-set ${metricName()}`, step: "any" },
+     { id: "testOnce", type: "select", label: "Does X_test appear anywhere before this one cell?", options: [["","Choose…"],["no","No, this is the only place"],["yes","Yes"]] },
+     { id: "worst", type: "textarea", label: "Your worst slice, with its number", hint: "A class, a group or a range of the target.", wide: true },
+     { id: "mistakes", type: "number", label: "How many real test mistakes do you show and explain?", step: "1", min: "0" }
+   ] : [],
+   check() {
+     const out = [];
+     if (!ttype() || !S.metric) return [PRE(`Finish ${stepRef("task","metric")} first.`)];
+     if (S.testOnce === "yes") out.push(V("work","X_test may appear only in the one marked cell. Any earlier use costs those points, whatever the score.","ProjectA.pdf · requirement 2"));
+     else if (S.testOnce === "no") out.push(V("good","You report that the test set is touched once. Search your notebook for X_test to be sure."));
+     const cv = num(S.cvMean), sd = num(S.cvSd), te = num(S.testScore);
+     if (cv !== null && sd !== null && te !== null) {
+       const gap = te - cv, z = sd > 0 ? Math.abs(gap) / sd : Infinity;
+       const worse = lowerBetter() ? gap > 0 : gap < 0;
+       const msg = `Test ${fmt(te,4)} vs CV ${fmt(cv,4)}: a gap of ${fmt(gap,4)}, ${isFinite(z) ? fmt(z,1) + " fold standard deviations" : "with no fold spread to compare"}.`;
+       if (z <= 1) out.push(R("good", msg + " Within the fold-to-fold variation."));
+       else if (z <= 2) out.push(R("check", msg + ` Larger than one fold spread; the test score is ${worse ? "worse" : "better"}. Explain what might cause it.`,"ProjectA.pdf · requirement 5"));
+       else out.push(R("work", msg + ` Far outside the fold spread. Look for a difference between your CV setup and the test split (leakage in CV, a different preprocessing path, repeated rows) and explain it. Noticing it is what earns the points.`,"ProjectA.pdf · requirement 5"));
+     }
+     if (words(S.worst) < 5) out.push(V("work","Name your worst slice and its number, e.g. the recall for one class, or the error for one group.","ProjectA.pdf · requirement 5"));
+     else if (!/\d/.test(S.worst)) out.push(V("check","Include the number for your worst slice."));
+     else out.push(V("good","Worst slice named, with a number."));
+     const k = num(S.mistakes);
+     if (k !== null) out.push(k >= 3 ? V("good",`${k} real mistakes shown.`) : V("work",`The spec asks for three real mistakes; you have ${k}.`,"ProjectA.pdf · requirement 5"));
+     return out;
+   } },
+ { id: "memo", phase: "Test and report", name: "Decision memo and submission", src: "ProjectA.pdf · the decision memo; what to submit",
+   why: "One page to your named stakeholder. No code, no jargon. Paste your draft to check it, then get the notebook ready to submit.",
+   todo: () => [
+     "Write one page to the stakeholder from " + stepRef("task") + ", answering the four questions below. No code, no function names.",
+     "Use the numbers you would defend: the honest CV estimate or the test score, with its spread, not `best_score_`.",
+     "Read it aloud to someone outside the class. Rewrite every sentence they stop at.",
+     "Save the memo as a one-page PDF.",
+     "End the notebook with what changed since Part 1 (if anything) and your AI-assistance disclosure.",
+     "Run Restart and run all, check it finishes with no errors, then convert the notebook to HTML (the code is in ProjectA.pdf). Submit both by Sun 11/22, 11:59 pm."
+   ],
+   facts: stakeholderBox,
+   fields: () => [
+     { id: "memo", type: "textarea", label: "Paste your memo draft", wide: true, rows: 10 },
+     { id: "q1", type: "select", label: "Does it say what the model does, and how well?", options: [["","Choose…"],["yes","Yes"],["no","Not yet"]] },
+     { id: "q2", type: "select", label: "Does it say what being wrong costs, in their units?", options: [["","Choose…"],["yes","Yes"],["no","Not yet"]] },
+     { id: "q3", type: "select", label: "Does it say what you would and would not use it for?", options: [["","Choose…"],["yes","Yes"],["no","Not yet"]] },
+     { id: "q4", type: "select", label: "Does it say what you would want before trusting it further?", options: [["","Choose…"],["yes","Yes"],["no","Not yet"]] }
+   ],
+   check() {
+     const out = [], txt = S.memo || "";
+     if (!txt.trim() && !S.q1 && !S.q2 && !S.q3 && !S.q4) return out;
+     const n = words(txt);
+     if (n) out.push(n > 650 ? R("check",`${n} words. One page is usually 350–550 words; cut to what the stakeholder needs.`) : n < 200 ? R("check",`${n} words. That may be too short to answer all four questions.`) : R("good",`${n} words, a reasonable length for one page.`));
+     const jargon = ["f1","roc","auc","cross-validation","cross validation","hyperparameter","grid search","gridsearch","pipeline","logistic regression","k-nn","knn","naive bayes","r²","r2","rmse","mae","precision","recall","overfit","train/test","dataframe","sklearn","scikit"];
+     const found = jargon.filter(j => new RegExp("(^|[^a-z])" + j.replace(/[.*+?^${}()|[\]\\/]/g, "\\$&") + "([^a-z]|$)", "i").test(txt));
+     if (found.length) out.push(R("check",`Terms your stakeholder may not know: ${found.join(", ")}. Translate them, or explain each in plain words.`,"ProjectA.pdf · decision memo"));
+     else if (n) out.push(R("good","None of the common technical terms this tool looks for were found. It looks for about two dozen; others may remain."));
+     if (/```|import |\.fit\(|\bdef \b/.test(txt)) out.push(V("work","The memo contains code. It should contain none.","ProjectA.pdf · decision memo"));
+     const role = (S.role || "").trim();
+     if (role && n && !txt.toLowerCase().includes(role.toLowerCase().split(/\s+/).slice(-1)[0])) out.push(V("check",`${stepRef("task")[0].toUpperCase() + stepRef("task").slice(1)} names "${role}" as your stakeholder, but the memo does not seem to mention them. Address it to them.`));
+     ["q1","q2","q3","q4"].forEach((q, i) => { if (S[q] === "no") out.push(V("work",["Say what the model does, and how well, with your honest number.","Say what being wrong costs, in your stakeholder's units.","Say what you would and would not use it for.","Say what you would want before trusting it further."][i],"ProjectA.pdf · decision memo")); });
+     out.push(V("unk","Whether the memo is clear and convincing is for a human reader to judge."));
+     return out;
+   } },
+ { id: "summary", phase: "Test and report", name: "Summary", summary: true }
+];
+
+// ---------- Rendering ----------
+const rail = document.getElementById("rail"), pane = document.getElementById("pane");
+function todos(st) { try { return st.todo ? st.todo() : []; } catch (e) { return []; } }
+function doneCount(st) { const d = S.done[st.id] || []; return todos(st).filter((_, i) => d[i]).length; }
+function stepStatus(i) {
+  const st = STEPS[i]; if (st.summary) return null;
+  let v; try { v = st.check(); } catch (e) { v = []; }
+  if (!v.length || v.every(x => x.pre)) return null;
+  return v.filter(x => !x.pre).reduce((acc, x) => LEVEL_ORDER[x.level] > LEVEL_ORDER[acc] ? x.level : acc, "good");
+}
+function renderRail() {
+  rail.innerHTML = "";
+  let phase = null;
+  STEPS.forEach((st, i) => {
+    if (st.phase !== phase && !st.summary) { phase = st.phase; const h = document.createElement("div"); h.className = "phase"; h.textContent = phase; rail.appendChild(h); }
+    const s = stepStatus(i), b = document.createElement("button");
+    b.type = "button"; if (i === current) b.setAttribute("aria-current", "step");
+    b.innerHTML = `<span class="num">${st.summary ? "✓" : i + 1}</span><span class="name"></span><span class="dot ${s || ""}" title="${s ? LEVEL_LABEL[s] : "Not started"}"></span>`;
+    b.querySelector(".name").textContent = st.name;
+    b.setAttribute("aria-label", `${st.name}: ${s ? LEVEL_LABEL[s] : "not started"}`);
+    b.addEventListener("click", () => { current = i; save(); render(); pane.querySelector("h2")?.focus(); });
+    rail.appendChild(b);
+  });
+}
+// Text with `code` spans, built without innerHTML.
+function rich(el, text) {
+  String(text).split("`").forEach((part, i) => { if (!part) return; if (i % 2) { const c = document.createElement("code"); c.textContent = part; el.appendChild(c); } else el.appendChild(document.createTextNode(part)); });
+  return el;
+}
+function control(f) {
+  const wrap = document.createElement("div"); wrap.className = "field" + (f.wide ? " wide" : "");
+  const id = "f-" + f.id, lab = document.createElement("label"); lab.htmlFor = id; lab.textContent = f.label; wrap.appendChild(lab);
+  let el;
+  if (f.type === "select") {
+    el = document.createElement("select");
+    const opts = typeof f.options === "function" ? f.options() : f.options;
+    opts.forEach(([v, t]) => { const o = document.createElement("option"); o.value = v; o.textContent = t; el.appendChild(o); });
+  } else if (f.type === "textarea") { el = document.createElement("textarea"); if (f.rows) el.rows = f.rows; }
+  else { el = document.createElement("input"); el.type = f.type === "number" ? "number" : "text"; if (f.step) el.step = f.step; if (f.min) el.min = f.min; if (f.max) el.max = f.max; if (f.type === "number") el.inputMode = "decimal"; }
+  el.id = id; el.value = S[f.id] ?? "";
+  el.addEventListener(f.type === "select" ? "change" : "input", () => {
+    S[f.id] = el.value;
+    if (f.id === "dataset") { S.target = ""; S.metric = ""; }
+    if (f.id === "target") { S.metric = ""; }
+    save();
+    if (f.type === "select") render(); else { renderVerdicts(); renderRail(); }
+  });
+  wrap.appendChild(el);
+  if (f.hint) { const h = document.createElement("span"); h.className = "hint"; h.textContent = f.hint; wrap.appendChild(h); }
+  return wrap;
+}
+function todoList(st) {
+  const items = todos(st); if (!items.length) return null;
+  const box = document.createElement("div"); box.style.display = "flex"; box.style.flexDirection = "column"; box.style.gap = "8px";
+  const h = document.createElement("h3"); h.className = "sec"; h.textContent = "Do this in your notebook";
+  const cnt = document.createElement("span"); cnt.className = "count"; h.appendChild(cnt); box.appendChild(h);
+  const ol = document.createElement("ol"); ol.className = "todo";
+  const d = S.done[st.id] || (S.done[st.id] = []);
+  const recount = () => { cnt.textContent = `${items.filter((_, i) => d[i]).length} of ${items.length} done`; };
+  items.forEach((t, i) => {
+    const li = document.createElement("li"); if (d[i]) li.className = "done";
+    const cb = document.createElement("input"); cb.type = "checkbox"; cb.id = `todo-${st.id}-${i}`; cb.checked = !!d[i];
+    const lab = document.createElement("label"); lab.htmlFor = cb.id; rich(lab, t);
+    cb.addEventListener("change", () => { d[i] = cb.checked; li.className = cb.checked ? "done" : ""; save(); recount(); });
+    li.append(cb, lab); ol.appendChild(li);
+  });
+  recount(); box.appendChild(ol);
+  return box;
+}
+function modelTable() {
+  const t = ttype(); if (!t) return null;
+  const box = document.createElement("div"); box.className = "models";
+  const tbl = document.createElement("table");
+  tbl.innerHTML = `<thead><tr><th scope="col">Model family</th><th scope="col">Mean CV ${metricName()}</th><th scope="col">Standard deviation across folds</th></tr></thead>`;
+  const tb = document.createElement("tbody");
+  S.models.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    const sel = document.createElement("select"); sel.id = "m-fam-" + i; sel.setAttribute("aria-label", `Model ${i + 1} family`);
+    [["","—"], ...FAMILIES[t].map(x => [x, x]), ["Other", "Other (not from the course list)"]].forEach(([v, l]) => { const o = document.createElement("option"); o.value = v; o.textContent = l; sel.appendChild(o); });
+    sel.value = r.fam || "";
+    sel.addEventListener("change", () => { r.fam = sel.value; save(); renderVerdicts(); renderRail(); });
+    const mk = (k, lab) => { const inp = document.createElement("input"); inp.type = "number"; inp.step = "any"; inp.id = `m-${k}-${i}`; inp.inputMode = "decimal"; inp.setAttribute("aria-label", `Model ${i + 1} ${lab}`); inp.value = r[k] ?? ""; inp.addEventListener("input", () => { r[k] = inp.value; save(); renderVerdicts(); renderRail(); }); return inp; };
+    [sel, mk("mean", "mean"), mk("sd", "standard deviation")].forEach(el => { const td = document.createElement("td"); td.appendChild(el); tr.appendChild(td); });
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb); box.appendChild(tbl);
+  return box;
+}
+let verdictBox = null;
+function renderVerdicts() {
+  if (!verdictBox) return;
+  const st = STEPS[current]; let v = [];
+  try { v = st.check(); } catch (e) { v = [V("unk","Something in this step could not be checked. Re-enter the numbers as plain decimals.")]; }
+  verdictBox.innerHTML = "";
+  const h = document.createElement("h3"); h.className = "sec"; h.textContent = "What this step looks like"; verdictBox.appendChild(h);
+  if (!v.length) { const p = document.createElement("p"); p.className = "empty"; p.textContent = "Fill in the fields above; feedback appears here as you go."; verdictBox.appendChild(p); return; }
+  [...v].sort((a, b) => LEVEL_ORDER[b.level] - LEVEL_ORDER[a.level]).forEach(x => {
+    const d = document.createElement("div"); d.className = "v " + (x.pre ? "" : x.level);
+    d.innerHTML = x.pre ? `<span class="chip none">Waiting</span><p></p>` : `<span class="chip ${x.level}">${LEVEL_LABEL[x.level]}</span><p></p>`;
+    const p = d.querySelector("p"); p.textContent = x.text;
+    if (x.rule || (x.src && x.src !== "—")) {
+      const s = document.createElement("span"); s.className = "src";
+      if (x.rule) { const t = document.createElement("span"); t.className = "tag"; t.textContent = "Rule of thumb"; t.title = "A simplified cut-off from the lectures: a guide, not a statistical test."; s.appendChild(t); }
+      if (x.src && x.src !== "—") s.appendChild(document.createTextNode("Basis: " + x.src));
+      p.appendChild(s);
+    }
+    verdictBox.appendChild(d);
+  });
+}
+function summaryText() {
+  const lines = ["Project A Training Wheels: summary", `Dataset: ${ds() ? ds().name : "—"} · Target: ${S.target || "—"} · Metric: ${S.metric ? metricName() : "—"}`];
+  if (S.role) lines.push(`Stakeholder: ${S.role}${S.org ? ", " + S.org : ""}`);
+  lines.push("");
+  STEPS.forEach((st, i) => { if (st.summary) return; const s = stepStatus(i); const n = todos(st).length;
+    lines.push(`${i + 1}. ${st.name}: ${s ? LEVEL_LABEL[s] : "Not started"}${n ? ` (${doneCount(st)} of ${n} notebook tasks ticked)` : ""}`);
+    let v = []; try { v = st.check(); } catch (e) {}
+    v.filter(x => !x.pre && (x.level === "work" || x.level === "check")).forEach(x => lines.push(`   - [${LEVEL_LABEL[x.level]}${x.rule ? ", rule of thumb" : ""}] ${x.text}`)); });
+  lines.push("", "This summary checks process only, from what was typed into the tool. It is not a grade.");
+  return lines.join("\n");
+}
+function render() {
+  if (current < 0 || current >= STEPS.length) current = 0;
+  renderRail();
+  const st = STEPS[current];
+  pane.innerHTML = "";
+  const card = document.createElement("section"); card.className = "card";
+  const h = document.createElement("h2"); h.tabIndex = -1; h.textContent = st.summary ? "Where you stand" : `${current + 1}. ${st.name}`; card.appendChild(h);
+  if (st.summary) {
+    const p = document.createElement("p"); p.className = "why"; p.textContent = "Every step at a glance. Steps marked Needs work have something the spec requires that is missing or contradicts what you entered. Bring the copied summary to office hours if you want feedback."; card.appendChild(p);
+    const ul = document.createElement("ul"); ul.className = "summary-list";
+    STEPS.forEach((s, i) => { if (s.summary) return; const li = document.createElement("li"); const st2 = stepStatus(i); const n = todos(s).length;
+      const name = document.createElement("span"); name.textContent = `${i + 1}. ${s.name}`;
+      const right = document.createElement("span"); right.className = "right";
+      if (n) { const c = document.createElement("span"); c.className = "src"; c.textContent = `${doneCount(s)}/${n} tasks`; right.appendChild(c); }
+      const chip = document.createElement("span"); chip.className = "chip " + (st2 || "none"); chip.textContent = st2 ? LEVEL_LABEL[st2] : "Not started"; right.appendChild(chip);
+      li.append(name, right); ul.appendChild(li); });
+    card.appendChild(ul);
+    const pre = document.createElement("pre"); pre.className = "out"; pre.id = "summary-text"; pre.textContent = summaryText(); card.appendChild(pre);
+    const row = document.createElement("div"); row.className = "nav-row";
+    const copy = document.createElement("button"); copy.className = "btn primary"; copy.type = "button"; copy.textContent = "Copy summary";
+    const msg = document.createElement("span"); msg.className = "hint"; msg.setAttribute("role", "status");
+    const selectPre = () => { const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); msg.textContent = "Selected: press Ctrl+C or ⌘C to copy."; };
+    copy.addEventListener("click", () => {
+      try { navigator.clipboard.writeText(pre.textContent).then(() => { msg.textContent = "Copied."; }).catch(selectPre); } catch (e) { selectPre(); }
+    });
+    const clear = document.createElement("button"); clear.className = "btn"; clear.type = "button"; clear.textContent = "Clear all my entries";
+    let armed = false;
+    clear.addEventListener("click", () => { if (!armed) { armed = true; clear.textContent = "Click again to clear everything"; return; } S = { models: [{},{},{},{}], done: {} }; current = 0; save(); render(); });
+    const left = document.createElement("div"); left.style.display = "flex"; left.style.gap = "10px"; left.style.alignItems = "center"; left.style.flexWrap = "wrap"; left.append(copy, msg);
+    row.append(left, clear); card.appendChild(row);
+    pane.appendChild(card); return;
+  }
+  const why = document.createElement("p"); why.className = "why"; why.textContent = st.why; card.appendChild(why);
+  const src = document.createElement("span"); src.className = "src"; src.textContent = "From: " + st.src; card.appendChild(src);
+  const facts = st.facts && st.facts();
+  if (facts) { const f = document.createElement("div"); f.className = "facts"; f.innerHTML = "<h3></h3><ul></ul>"; f.querySelector("h3").textContent = facts.title; facts.items.forEach(t => { const li = document.createElement("li"); li.textContent = t; f.querySelector("ul").appendChild(li); }); card.appendChild(f); }
+  const td = todoList(st); if (td) card.appendChild(td);
+  const hr = document.createElement("hr"); hr.className = "div"; card.appendChild(hr);
+  const h3 = document.createElement("h3"); h3.className = "sec"; h3.textContent = "What you got"; card.appendChild(h3);
+  const fl = st.fields().filter(f => !f.show || f.show());
+  if (!fl.length && !st.table) { const p = document.createElement("p"); p.className = "empty"; p.textContent = `This step depends on ${stepRef("task")}: choose a dataset and a target first.`; card.appendChild(p); }
+  if (st.table) { const t = modelTable(); if (t) card.appendChild(t); else { const p = document.createElement("p"); p.className = "empty"; p.textContent = `Choose a dataset, target and metric in ${stepRef("task","metric")} first.`; card.appendChild(p); } }
+  if (fl.length) { const g = document.createElement("div"); g.className = "fields"; fl.forEach(f => g.appendChild(control(f))); card.appendChild(g); }
+  verdictBox = document.createElement("div"); verdictBox.className = "verdicts"; verdictBox.setAttribute("aria-live", "polite"); card.appendChild(verdictBox);
+  renderVerdicts();
+  const nav = document.createElement("div"); nav.className = "nav-row";
+  const prev = document.createElement("button"); prev.className = "btn"; prev.type = "button"; prev.textContent = "← Previous step"; prev.disabled = current === 0;
+  const next = document.createElement("button"); next.className = "btn primary"; next.type = "button"; next.textContent = current === STEPS.length - 2 ? "See the summary →" : `Next: ${STEPS[current + 1].name} →`;
+  prev.addEventListener("click", () => { current--; save(); render(); window.scrollTo({ top: 0 }); });
+  next.addEventListener("click", () => { current++; save(); render(); window.scrollTo({ top: 0 }); });
+  nav.append(prev, next); card.appendChild(nav);
+  pane.appendChild(card);
+}
+render();
+})();
+</script>
+</body>
+</html>
