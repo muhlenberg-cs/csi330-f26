@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Final Project Training Wheels · CSI 330</title>
+<meta name="description" content="A step-by-step companion for the CSI 330 Final Project: what to do in your notebook, and a check of what you got.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='4' cy='12' r='3' fill='none' stroke='%235b48e8' stroke-width='1.6'/%3E%3Ccircle cx='12' cy='12' r='3' fill='none' stroke='%235b48e8' stroke-width='1.6'/%3E%3Cpath d='M4 12 8 4h3M8 4l4 8' fill='none' stroke='%235b48e8' stroke-width='1.6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&family=Source+Sans+3:wght@400;600;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* One working column with a step list beside it. Status is carried by a word and a small dot,
+   never by coloured stripes or tinted cards. The course violet is used for actions and focus only. */
+:root {
+  --bg: #fbfbfa; --surface: #ffffff; --ink: #1c1b22; --muted: #55535f; --line: #e2e0e7; --line-strong: #c9c6d3;
+  --accent: #5b48e8; --accent-ink: #ffffff; --accent-soft: #efedfd;
+  --good: #17683f; --check: #7a4f00; --work: #a3231a; --unk: #4a4f5a;
+  --code-bg: #f1f0f4;
+  --f-head: "Source Serif 4", Georgia, serif;
+  --f-body: "Source Sans 3", "Helvetica Neue", Arial, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #16151a; --surface: #1d1c22; --ink: #ecebf0; --muted: #b3b0bd; --line: #2f2d37; --line-strong: #46434f;
+  --accent: #a497ff; --accent-ink: #16151a; --accent-soft: #29263d;
+  --good: #7fd6a3; --check: #f0c46a; --work: #ff9b90; --unk: #c6cad2; --code-bg: #26252d; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #16151a; --surface: #1d1c22; --ink: #ecebf0; --muted: #b3b0bd; --line: #2f2d37; --line-strong: #46434f;
+  --accent: #a497ff; --accent-ink: #16151a; --accent-soft: #29263d;
+  --good: #7fd6a3; --check: #f0c46a; --work: #ff9b90; --unk: #c6cad2; --code-bg: #26252d; color-scheme: dark; }
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 16px; line-height: 1.55;
+  padding: 28px max(16px, env(safe-area-inset-right, 0px)) 64px max(16px, env(safe-area-inset-left, 0px)); }
+p, li { text-wrap: pretty; }
+.wrap { max-width: 1100px; margin: 0 auto; }
+header.top { padding-bottom: 20px; border-bottom: 1px solid var(--line); margin-bottom: 24px; }
+.course { margin: 0 0 4px; font-size: 15px; color: var(--muted); }
+.course a { color: inherit; }
+h1 { font-family: var(--f-head); font-weight: 700; font-size: clamp(28px, 4vw, 36px); line-height: 1.15; margin: 0; text-wrap: balance; }
+.lede { max-width: 66ch; margin: 10px 0 0; }
+.key { display: flex; flex-wrap: wrap; gap: 6px 18px; margin: 14px 0 0; padding: 0; list-style: none; font-size: 15px; }
+.key li { display: flex; align-items: center; gap: 7px; }
+details.trust { margin-top: 14px; max-width: 80ch; }
+details.trust summary { cursor: pointer; font-weight: 600; color: var(--accent); width: fit-content; }
+details.trust summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+.trust dl { margin: 12px 0 0; display: grid; grid-template-columns: minmax(0, 15em) minmax(0, 1fr); gap: 8px 20px; }
+.trust dt { font-weight: 600; }
+.trust dd { margin: 0; color: var(--muted); }
+@media (max-width: 640px) { .trust dl { grid-template-columns: minmax(0, 1fr); gap: 2px; } .trust dd { margin-bottom: 10px; } }
+.trust .bottom { margin: 12px 0 0; }
+.layout { display: grid; grid-template-columns: 250px minmax(0, 1fr); gap: 32px; align-items: start; }
+@media (max-width: 860px) { .layout { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
+nav.rail { position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); display: flex; flex-direction: column; }
+@media (max-width: 860px) { nav.rail { position: static; border: 1px solid var(--line); border-radius: 8px; padding: 6px; background: var(--surface); } }
+.rail .phase { font-size: 14px; font-weight: 700; color: var(--muted); padding: 16px 10px 4px; }
+.rail .phase:first-child { padding-top: 0; }
+.rail button { all: unset; box-sizing: border-box; cursor: pointer; display: grid; grid-template-columns: 22px minmax(0,1fr) auto; gap: 8px; align-items: center; padding: 7px 10px; border-radius: 6px; font-size: 15px; line-height: 1.35; min-height: 36px; }
+.rail button:hover { background: var(--code-bg); }
+.rail button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.rail button[aria-current="step"] { background: var(--accent-soft); font-weight: 700; }
+.rail .num { font-family: var(--f-mono); font-size: 13px; color: var(--muted); text-align: right; }
+.rail .name { min-width: 0; }
+.dot { width: 9px; height: 9px; border-radius: 50%; background: transparent; box-shadow: inset 0 0 0 1.5px var(--line-strong); flex: none; }
+.dot.good { background: var(--good); box-shadow: none; } .dot.check { background: var(--check); box-shadow: none; }
+.dot.work { background: var(--work); box-shadow: none; } .dot.unk { background: var(--unk); box-shadow: none; }
+.chip { display: inline-flex; align-items: center; gap: 7px; font-size: 14px; font-weight: 700; white-space: nowrap; }
+.chip::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: currentColor; flex: none; }
+.chip.good { color: var(--good); } .chip.check { color: var(--check); } .chip.work { color: var(--work); } .chip.unk { color: var(--unk); }
+.chip.none { color: var(--muted); font-weight: 600; } .chip.none::before { background: transparent; box-shadow: inset 0 0 0 1.5px var(--line-strong); }
+.tag { font-style: italic; color: var(--muted); margin-right: 4px; }
+.tag::after { content: "."; }
+main.pane { min-width: 0; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: clamp(18px, 3vw, 32px); display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.card h2 { font-family: var(--f-head); font-size: 26px; line-height: 1.2; font-weight: 700; margin: 0; text-wrap: balance; }
+.card h2:focus { outline: none; }
+.card h3.sec { margin: 10px 0 0; font-size: 18px; font-weight: 700; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.card h3.sec .count { font-size: 15px; color: var(--muted); font-weight: 400; }
+.card .why { margin: 0; max-width: 68ch; font-size: 17px; }
+.src { font-size: 14px; color: var(--muted); }
+.card > .src { margin-top: -8px; }
+code { font-family: var(--f-mono); font-size: .86em; background: var(--code-bg); border-radius: 3px; padding: 1px 4px; overflow-wrap: anywhere; }
+ol.todo { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; counter-reset: todo; }
+ol.todo li { display: grid; grid-template-columns: 22px 24px minmax(0, 1fr); gap: 6px; align-items: start; padding: 8px 4px; border-top: 1px solid var(--line); counter-increment: todo; }
+ol.todo li:last-child { border-bottom: 1px solid var(--line); }
+ol.todo li::before { content: counter(todo) "."; font-family: var(--f-mono); font-size: 13px; color: var(--muted); padding-top: 3px; text-align: right; }
+ol.todo input { width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--accent); cursor: pointer; }
+ol.todo label { cursor: pointer; min-width: 0; max-width: 70ch; }
+ol.todo li.done label { color: var(--muted); text-decoration: line-through; text-decoration-color: var(--line-strong); }
+.fields { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px 20px; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field.wide { grid-column: 1 / -1; }
+.field label { font-weight: 600; font-size: 15px; }
+.hint { font-size: 14px; color: var(--muted); }
+input[type="text"], input[type="number"], select, textarea { font: inherit; color: var(--ink); background: var(--surface); border: 1px solid var(--line-strong); border-radius: 6px; padding: 9px 11px; width: 100%; min-width: 0; min-height: 42px; }
+input[type="number"] { font-family: var(--f-mono); font-size: 15px; font-variant-numeric: tabular-nums; }
+textarea { min-height: 96px; resize: vertical; }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+.facts { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 0; display: flex; flex-direction: column; gap: 4px; }
+.facts h3 { margin: 0; font-size: 15px; font-weight: 700; }
+.facts ul { margin: 0; padding-left: 20px; }
+.facts li { margin: 2px 0; max-width: 72ch; }
+.facts p { margin: 0; }
+.verdicts { display: flex; flex-direction: column; }
+.verdicts h3.sec { margin-bottom: 6px; }
+.v { display: grid; grid-template-columns: 9.5em minmax(0, 1fr); gap: 14px; align-items: baseline; padding: 11px 0; border-top: 1px solid var(--line); }
+.v:last-child { border-bottom: 1px solid var(--line); }
+@media (max-width: 560px) { .v { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+.v p { margin: 0; max-width: 70ch; }
+.v .src { display: block; margin-top: 3px; }
+.empty { color: var(--muted); margin: 0; }
+.models { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; min-width: 560px; }
+th, td { text-align: left; padding: 8px 8px 8px 0; border-bottom: 1px solid var(--line); vertical-align: middle; }
+th { font-size: 14px; color: var(--muted); font-weight: 600; }
+hr.div { border: 0; border-top: 1px solid var(--line); margin: 4px 0 0; }
+.nav-row { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 6px; }
+.btn { font: inherit; font-weight: 600; cursor: pointer; border-radius: 6px; padding: 10px 16px; min-height: 44px; border: 1px solid var(--line-strong); background: var(--surface); color: var(--ink); }
+.btn:hover { background: var(--code-bg); }
+.btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn:disabled { opacity: .5; cursor: default; }
+.summary-list { display: flex; flex-direction: column; margin: 0; padding: 0; list-style: none; }
+.summary-list li { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; padding: 9px 0; border-top: 1px solid var(--line); }
+.summary-list li:last-child { border-bottom: 1px solid var(--line); }
+.summary-list .right { display: flex; gap: 14px; align-items: center; }
+pre.out { white-space: pre-wrap; font-family: var(--f-mono); font-size: 13.5px; line-height: 1.5; background: var(--code-bg); border-radius: 6px; padding: 14px; max-height: 340px; overflow: auto; margin: 0; }
+nav.tabs { display: flex; gap: 4px; margin: 0 0 22px; border-bottom: 1px solid var(--line); overflow-x: auto; }
+nav.tabs a { padding: 10px 14px; margin-bottom: -1px; color: var(--muted); font-weight: 600; text-decoration: none; border-bottom: 2px solid transparent; white-space: nowrap; }
+nav.tabs a:hover { color: var(--ink); }
+nav.tabs a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--accent); }
+nav.tabs a:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; border-radius: 3px; }
+nav.tabs .note { font-weight: 400; }
+footer { margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 15px; color: var(--muted); max-width: 80ch; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <p class="course"><a href="./../">CSI 330 Machine Learning, Fall 2026</a></p>
+    <h1>Final Project Training Wheels</h1>
+    <p class="lede">Keep this open next to your notebook and work through the steps in order. Each step lists what to do, asks what you got, and checks it against the final project specification and Lecture 5.3's gap-vs-spread rule, computed from the fold scores you paste in. It never does a step for you. Due Sat 12/12, 11:59 pm.</p>
+    <ul class="key" aria-label="What the labels mean">
+      <li><span class="chip good">Looks good</span></li><li><span class="chip check">Check this</span></li><li><span class="chip work">Needs work</span></li><li><span class="chip unk">Can't verify</span></li>
+    </ul>
+    <details class="trust">
+      <summary>How far to trust these checks</summary>
+      <dl>
+        <dt>Computed from your fold scores</dt><dd>Means, standard deviations, the average gap, the fold spread and how many folds each model wins. Exact, as long as you paste the numbers your notebook printed, in fold order.</dd>
+        <dt>The gap-vs-spread verdict</dt><dd>The rule from Lecture 5.3: a gap no bigger than the fold spread is a tie; a bigger gap with the same winner on every fold is real; anything else needs a closer look. A rule of thumb, not a statistical test, and labelled wherever it is used.</dd>
+        <dt>Your yes/no answers</dt><dd>The page takes your word for them. It cannot see your code.</dd>
+        <dt>Your writing</dt><dd>It counts words. It never judges whether your reasoning is right; those checks say <b>Can't verify</b>.</dd>
+      </dl>
+      <p class="bottom">This page never sees your notebook, and nothing here is a grade. If it disagrees with <b>FinalProject.pdf</b>, the PDF wins.</p>
+    </details>
+  </header>
+  <nav class="tabs" aria-label="Project">
+    <a href="./" aria-current="page">Final Project</a>
+    <a href="./project-a/">Project A <span class="note">(submitted)</span></a>
+  </nav>
+
+  <div class="layout">
+    <nav class="rail" id="rail" aria-label="Steps"></nav>
+    <main class="pane" id="pane"></main>
+  </div>
+
+  <footer>Your entries are saved only in this browser, on this device: a different laptop or browser starts empty, and teammates do not see each other's entries. Nothing is sent anywhere, including to your instructor; submit on Canvas as usual. "We tried it, and it did not help" earns full credit when it is measured properly.</footer>
+</div>
+
+<script>
+(() => {
+"use strict";
+// ---------- Verified reference facts ----------
+// Rows, class shares and Dummy ranges were computed from the files in the course Data folder on 2026-11-11.
+// Dummy ranges: 20 random 80/20 train/test splits, each scored with 5-fold shuffled CV on the training part.
+const DATA = {
+  bank: { name: "Bank Marketing", file: "bank_marketing.csv", rows: 41188, ordered: true,
+    tasks: { y: { label: "y: client subscribes (yes = positive)", type: "clf", pos: 0.1127, maj: 0.8873 } },
+    facts: ["41,188 calls; 11.3% of clients said yes.", "Semicolon-separated: pd.read_csv(..., sep=\";\").", "Missing values are written as \"unknown\".", "The file is ordered by date, May 2008 to November 2010 (bank_marketing_names.txt)."] },
+  hotels: { name: "Hotel Booking Demand", file: "hotel_bookings.csv", rows: 119390, ordered: false,
+    tasks: { is_canceled: { label: "is_canceled: booking cancelled (1 = positive)", type: "clf", pos: 0.3704, maj: 0.6296 },
+             adr: { label: "adr: average daily rate (regression)", type: "reg", dummy: { mae: [36.24, 36.53], rmse: [48.10, 51.03], r2: [-0.0001, 0.0] } } },
+    facts: ["119,390 bookings; 37.0% were cancelled.", "adr ranges from −6.38 to 5,400; its mean is 101.83.", "Missing values appear as NULL, Undefined and empty cells.", "About a quarter of the rows are exact duplicates of another row (spec)."] },
+  diabetes: { name: "Diabetes 130-US Hospitals", file: "diabetes_130_hospitals.csv", rows: 101766, ordered: false,
+    tasks: { readmitted_lt30: { label: "readmitted == \"<30\": readmitted within 30 days (positive)", type: "clf", pos: 0.1116, maj: 0.8884 } },
+    facts: ["101,766 hospital stays; 11.2% readmitted within 30 days.", "Missing values are written as \"?\".", "In A1Cresult and max_glu_serum, None means the test was not done.", "Many patients have more than one stay (patient_nbr) (spec)."] },
+  garment: { name: "Garment Worker Productivity", file: "garment_productivity.csv", rows: 1197, ordered: false,
+    tasks: { actual_productivity: { label: "actual_productivity (regression)", type: "reg", dummy: { mae: [0.1317, 0.1382], rmse: [0.1712, 0.1775], r2: [-0.0136, -0.0017] } } },
+    facts: ["1,197 team-days; mean actual_productivity 0.735 (std 0.175).", "wip is missing in 42% of rows (spec).", "Small dataset: fold-to-fold spread will be wide (spec)."] }
+};
+const MISSING_CODE = { bank: "`\"unknown\"`", hotels: "`\"NULL\"`, `\"Undefined\"` and empty cells", diabetes: "`\"?\"`", garment: "empty cells (in `wip`)" };
+const METRICS = {
+  clf: [ ["accuracy","Accuracy"], ["precision","Precision"], ["recall","Recall"], ["f1","F1"], ["roc_auc","ROC AUC"] ],
+  reg: [ ["mae","MAE"], ["rmse","RMSE"], ["r2","R²"] ]
+};
+const SCORING = { accuracy: "accuracy", precision: "precision", recall: "recall", f1: "f1", roc_auc: "roc_auc", mae: "neg_mean_absolute_error", rmse: "neg_root_mean_squared_error", r2: "r2" };
+const LOWER_BETTER = new Set(["mae","rmse"]);
+const FAMILIES = {
+  clf: ["k-NN", "Logistic regression", "Gaussian naive Bayes"],
+  reg: ["Linear regression", "Ridge regression", "k-NN regression"]
+};
+const LEVEL_ORDER = { work: 4, check: 3, unk: 2, good: 1 };
+const LEVEL_LABEL = { good: "Looks good", check: "Check this", work: "Needs work", unk: "Can't verify" };
+const GENERIC = /^(people|person|users?|everyone|the public|anyone|someone|stakeholders?|customers?|clients?|the company|companies|businesses|management|managers?|staff|employees|doctors?|hospitals?|banks?|hotels?|factories|the factory)$/i;
+
+// ---------- State ----------
+const KEY = "final-training-wheels-v1";
+let S = {};
+try { S = JSON.parse(localStorage.getItem(KEY) || "{}") || {}; } catch (e) { S = {}; }
+if (!S.models) S.models = [{},{},{},{}];
+if (!S.done) S.done = {};
+// Earlier versions had one stakeholder box and one decision box.
+if (S.stakeholder && !S.role) S.role = S.stakeholder;
+if (S.decision && !S.decWith) S.decWith = S.decision;
+let current = 0;
+try { current = Number(localStorage.getItem(KEY + ":step")) || 0; } catch (e) {}
+function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); localStorage.setItem(KEY + ":step", String(current)); } catch (e) {} }
+
+const num = v => (v === "" || v === undefined || v === null || isNaN(Number(v))) ? null : Number(v);
+const words = t => (t || "").trim().split(/\s+/).filter(Boolean).length;
+const fmt = (x, d = 4) => { if (x === null || x === undefined || isNaN(Number(x))) return "—"; const t = Number(x).toFixed(d); return t.includes(".") ? t.replace(/0+$/, "").replace(/\.$/, "") : t; };
+const ds = () => DATA[S.dataset];
+const task = () => ds() && S.target ? ds().tasks[S.target] : null;
+const ttype = () => task() ? task().type : null;
+const lowerBetter = () => LOWER_BETTER.has(S.metric);
+const metricName = () => { const t = ttype(); const m = t && METRICS[t].find(x => x[0] === S.metric); return m ? m[1] : "your metric"; };
+const scoring = () => S.metric ? "`scoring=\"" + SCORING[S.metric] + "\"`" : "your `scoring=` string";
+const rowsUsed = () => { const s = num(S.sample); return s && ds() && s < ds().rows ? s : ds() ? ds().rows : null; };
+const sampled = () => { const s = num(S.sample); return !!(s && ds() && s < ds().rows); };
+const V = (level, text, src) => ({ level, text, src });
+const R = (level, text, src) => ({ level, text, src, rule: true });   // rule of thumb, labelled as such
+const PRE = text => ({ level: "unk", text, pre: true });
+const no = id => STEPS.findIndex(s => s.id === id) + 1;
+const stepRef = (...ids) => ids.length === 1 ? `step ${no(ids[0])}` : `steps ${ids.map(no).join(" and ")}`;
+
+// Final Project steps for the Training Wheels engine (spliced in by
+// ../2026 Project A - The Number You Would Defend/make_web_version.py in place of Project A's STEPS).
+// Field ids never change once published, so saved entries survive edits.
+
+// ---------- Fold scores and the Lecture 5.3 rule ----------
+const folds = t => (t || "").split(/[\s,;]+/).map(x => x.replace(/[\[\]()]/g, "")).filter(x => x !== "").map(Number);
+const foldsOk = a => a.length > 0 && a.every(x => isFinite(x));
+const mean = a => a.reduce((s, x) => s + x, 0) / a.length;
+const sdev = a => { const m = mean(a); return Math.sqrt(a.reduce((s, x) => s + (x - m) ** 2, 0) / a.length); };  // like numpy .std()
+// gap > 0 means the new model is better, whatever the metric's direction.
+function judge(ref, nw) {
+  const lb = lowerBetter();
+  const gaps = ref.map((r, i) => lb ? r - nw[i] : nw[i] - r);
+  const gap = mean(gaps), spread = (sdev(ref) + sdev(nw)) / 2;
+  const newWins = gaps.filter(g => g > 0).length, refWins = gaps.filter(g => g < 0).length;
+  const verdict = Math.abs(gap) <= spread ? "tie" : (gap > 0 ? newWins : refWins) === gaps.length ? "real" : "closer";
+  return { gaps, gap, spread, newWins, refWins, n: gaps.length, verdict };
+}
+const refFolds = () => folds(S.refFolds);
+const KINDS = [["","Choose…"],
+  ["missing","Missing data, again (Lecture 5.3)"],
+  ["threshold","The decision threshold (Lecture 4.1)"],
+  ["features","Feature engineering"],
+  ["family","A different model family: tree, forest or small network"],
+  ["groups","Repeated records: GroupKFold"],
+  ["nested","An honest score for a tuned model: nested CV (Lecture 5.2)"],
+  ["slices","Who does the model fail? (slices)"],
+  ["learning","Would more data help? (learning curve)"],
+  ["own","Your own question"]];
+const kindName = k => (KINDS.find(x => x[0] === k) || ["", "this investigation"])[1];
+const HEAD2HEAD = new Set(["missing","threshold","features","family","groups","own"]);
+
+function stakeholderBox() {
+  if (!S.role) return null;
+  return { title: `Your stakeholder · from ${stepRef("task")}`, items: [`Who: ${S.role}${S.org ? ", " + S.org : ""}`, "Every investigation should matter to them."] };
+}
+function refBox() {
+  const r = refFolds();
+  if (!foldsOk(r)) return stakeholderBox();
+  return { title: `Your reference model · from ${stepRef("noise")}`,
+    items: [`Project A model, ${metricName()} on each fold: ${r.map(x => fmt(x, 4)).join(", ")}`, `Mean ${fmt(mean(r), 4)}, standard deviation ${fmt(sdev(r), 4)}`, ...(S.role ? [`Stakeholder: ${S.role}${S.org ? ", " + S.org : ""}`] : [])] };
+}
+
+function investigation(p, n) {
+  const other = p === "i1" ? "i2" : "i1";
+  return { id: "inv" + n, phase: "Two investigations", name: `Investigation ${n}`, src: "FinalProject.pdf · Part 2; Lecture 5.3",
+    why: n === 1 ? "A question about your problem, a prediction written before you run anything, and a fair experiment on the same folds as your Project A model." : "Same five parts as the first one, on a different question.",
+    todo: () => {
+      const k = S[p + "kind"], t = [];
+      t.push("Write the question in a Markdown cell, and why it matters to your stakeholder.");
+      t.push("Write your prediction in its own cell before you run anything: which model wins, and by roughly how much.");
+      if (k === "threshold") t.push(S.metric === "roc_auc" ? "ROC AUC does not change with the threshold. Measure this investigation with a metric that does (recall, precision, or a cost you compute from the confusion matrix)." : "Get out-of-fold probabilities with `cross_val_predict(pipe, X_train, y_train, cv=cv, method=\"predict_proba\")`, choose the threshold from your error costs, and score both thresholds fold by fold.");
+      else if (k === "groups") t.push("Make `GroupKFold(n_splits=5)` with `groups=` the patient or booking key, and re-score your Project A pipeline on those folds too: the comparison must use the same folds.");
+      else if (k === "nested") t.push("Run `cross_val_score(GridSearchCV(pipe, grid, cv=inner), X_train, y_train, cv=cv)` and compare its mean with `best_score_` from the same grid.");
+      else if (k === "slices") t.push("Get out-of-fold predictions with `cross_val_predict(pipe, X_train, y_train, cv=cv)` and compute your metric for each group.");
+      else if (k === "learning") t.push("Run `learning_curve(pipe, X_train, y_train, cv=cv, train_sizes=[0.1, 0.3, 0.5, 0.7, 1.0], scoring=…)` and plot the mean and spread at each size.");
+      else t.push("Score the new pipeline with `cross_val_score(new_pipe, X_train, y_train, cv=cv, " + (S.metric ? "scoring=\"" + SCORING[S.metric] + "\"" : "scoring=…") + ")`: the same `cv` object as Part 1.");
+      if (k === "family") t.push("Explain in your own words how the new model makes a decision. If it is a neural network, run it on five seeds and report the spread across seeds too.");
+      t.push("Show the result fold by fold: both models' scores on each fold, the average gap, and the fold spread. Plot them side by side.");
+      t.push("Write what it means for your model and your stakeholder. \"It did not help\" is a result.");
+      return t;
+    },
+    facts: refBox,
+    fields: () => {
+      if (!ttype()) return [];
+      const k = S[p + "kind"], f = [
+        { id: p + "kind", type: "select", label: "What are you investigating?", options: KINDS },
+        { id: p + "lead", type: "text", label: "Who led it?", hint: "First names are enough." },
+        { id: p + "q", type: "textarea", label: "Your question, and why it matters to your stakeholder", wide: true },
+        { id: p + "pred", type: "textarea", label: "Your prediction, as written in your notebook", wide: true },
+        { id: p + "predFirst", type: "select", label: "Was the prediction written before you ran the experiment?", options: [["","Choose…"],["yes","Yes"],["no","No"]] }];
+      if (HEAD2HEAD.has(k)) {
+        f.push({ id: p + "same", type: "select", label: "Same folds as your Project A model?", options: [["","Choose…"],["yes","Yes, the same cv object"],["no","No"]] });
+        if (k === "groups") f.push({ id: p + "ref", type: "text", label: `Project A model on the GroupKFold folds: ${metricName()} on each fold`, hint: "Five numbers separated by commas.", wide: true });
+        f.push({ id: p + "new", type: "text", label: `The new model: ${metricName()} on each fold`, hint: "Paste the five numbers cross_val_score printed, separated by commas, in fold order.", wide: true });
+      } else if (k === "nested") {
+        f.push({ id: p + "best", type: "number", label: "best_score_ from GridSearchCV", step: "any" },
+               { id: p + "new", type: "text", label: `Nested CV: ${metricName()} on each outer fold`, hint: "Five numbers separated by commas.", wide: true });
+      } else if (k) f.push({ id: p + "nums", type: "textarea", label: k === "slices" ? "Your metric for each group, with group sizes" : "Mean score and spread at each training-set size", wide: true });
+      f.push({ id: p + "means", type: "textarea", label: "What it means, for your model and your stakeholder", wide: true });
+      return f;
+    },
+    check() {
+      const out = [], k = S[p + "kind"];
+      if (!ttype() || !S.metric) return [PRE(`Finish ${stepRef("task")} first: the dataset, target and metric carry over from Project A.`)];
+      if (!k) return out;
+      if (k === S[other + "kind"] && k !== "own") out.push(V("check", `Both investigations are "${kindName(k)}". Two different questions teach you more; if they really differ, say how.`, "FinalProject.pdf · Part 2"));
+      if (k === "threshold" && S.metric === "roc_auc") out.push(V("work", "ROC AUC is the same at every threshold, so it cannot show what a threshold change does. Measure this one with a threshold-dependent metric or a cost.", "Lecture 4.1"));
+      if (words(S[p + "q"]) < 12) out.push(V("work", "Write the question, and why it matters to your stakeholder, in a sentence or two.", "FinalProject.pdf · Part 2, item 1"));
+      if (words(S[p + "pred"]) < 8) out.push(V("work", "Write a prediction you could be wrong about: which model wins, and by roughly how much.", "FinalProject.pdf · Part 2, item 2"));
+      else if (!/\d|bigger|smaller|better|worse|tie|same|no difference|wins?|beat/i.test(S[p + "pred"])) out.push(V("check", "Make the prediction checkable: say which way it goes and roughly how far.", "FinalProject.pdf · Part 2, item 2"));
+      if (S[p + "predFirst"] === "no") out.push(V("work", "The prediction has to be committed before the experiment. You are graded on having committed, not on being right: write what you expected before you saw the result, and say honestly that it came late.", "FinalProject.pdf · Part 2, item 2"));
+      else if (S[p + "predFirst"] === "yes") out.push(V("good", "Prediction committed first."));
+      if (HEAD2HEAD.has(k)) {
+        if (S[p + "same"] === "no") out.push(V("work", "Use the same folds as your Project A model, or the comparison mixes the change with luck of the split.", "FinalProject.pdf · Part 2, item 3"));
+        const ref = k === "groups" ? folds(S[p + "ref"]) : refFolds(), nw = folds(S[p + "new"]);
+        if (k !== "groups" && !foldsOk(ref) && S[p + "new"]) out.push(V("unk", `Enter your Project A fold scores in ${stepRef("noise")} so this can be judged.`));
+        if (S[p + "new"] && !foldsOk(nw)) out.push(V("work", "Enter the fold scores as plain numbers separated by commas."));
+        else if (foldsOk(ref) && foldsOk(nw)) {
+          if (ref.length !== nw.length) out.push(V("work", `${ref.length} reference folds but ${nw.length} new ones. Same folds means the same number of scores, in the same order.`));
+          else if (lowerBetter() && [...ref, ...nw].some(x => x < 0)) out.push(V("work", `An error cannot be negative. scikit-learn's scorer returns −${metricName()}; flip the sign.`, "scikit-learn behaviour"));
+          else {
+            const j = judge(ref, nw), who = j.gap > 0 ? "the new model" : "your Project A model", wins = j.gap > 0 ? j.newWins : j.refWins;
+            const line = `Average gap ${fmt(Math.abs(j.gap), 4)} in favour of ${who}; fold spread ±${fmt(j.spread, 4)}; ${who} wins ${wins} of ${j.n} folds.`;
+            if (j.verdict === "tie") out.push(R("check", line + " The gap sits inside the wobble: a tie. Report it as one, and keep the simpler model.", "Lecture 5.3 (gap vs spread)"));
+            else if (j.verdict === "real") out.push(R("good", line + ` It clears the wobble on every fold: a real difference${j.gap > 0 ? "" : ", and it favours what you already had"}.`, "Lecture 5.3 (gap vs spread)"));
+            else out.push(R("check", line + " It clears the wobble, but not on every fold: look closer before you call it real.", "Lecture 5.3 (gap vs spread)"));
+          }
+        }
+      } else if (k === "nested") {
+        const b = num(S[p + "best"]), nw = folds(S[p + "new"]);
+        if (b !== null && foldsOk(nw)) {
+          const opt = lowerBetter() ? mean(nw) - b : b - mean(nw), sd = sdev(nw);
+          out.push(R(opt > sd ? "good" : "check", `best_score_ ${fmt(b, 4)} vs nested ${fmt(mean(nw), 4)} (±${fmt(sd, 4)}): best_score_ is ${opt >= 0 ? "optimistic" : "pessimistic"} by ${fmt(Math.abs(opt), 4)}, ${opt > sd ? "more" : "less"} than the fold spread.`, "Lecture 5.2"));
+        }
+      } else if (k && (S[p + "nums"] || "").trim()) out.push(/\d/.test(S[p + "nums"]) ? V("unk", "Your numbers are in. This tool cannot judge a slice table or a learning curve; compare each difference with your fold spread yourself.") : V("work", "Include the numbers, not just a description."));
+      if (k === "family") out.push(V("check", "Explain in your own words how the new model decides. If it is a neural network, report the spread across five seeds too.", "FinalProject.pdf · Part 2"));
+      if (words(S[p + "means"]) >= 15) out.push(V("unk", "Your interpretation is written. Whether it follows from the numbers is for you and your instructor to judge."));
+      else if (S[p + "q"]) out.push(V("work", "Say what the result means, for your model and your stakeholder. A negative result is a result.", "FinalProject.pdf · Part 2, item 5"));
+      if (!(S[p + "lead"] || "").trim()) out.push(V("check", "Name who led this investigation.", "FinalProject.pdf · Part 2"));
+      return out;
+    } };
+}
+
+const STEPS = [
+ { id: "task", phase: "Start where Project A ended", name: "Your team and setup", src: "FinalProject.pdf · Teams; Your dataset",
+   why: "The same dataset, target and metric as your Project A. Your reference model is your final Project A pipeline.",
+   todo: () => [
+     "Form a team of 2–4 (keep your Project A team, add classmates, or merge two teams) and register it on Canvas by Tue 12/01.",
+     "A merged team picks one Project A notebook as its starting point and says which.",
+     "Start a new notebook. Copy in your final Project A pipeline, data loading and split, unchanged."
+   ],
+   fields: () => [
+     { id: "dataset", type: "select", label: "Dataset", options: [["","Choose…"], ...Object.entries(DATA).map(([k,d]) => [k, d.name])] },
+     { id: "target", type: "select", label: "Target", show: () => !!ds(), options: () => [["","Choose…"], ...Object.entries(ds().tasks).map(([k,t]) => [k, t.label])] },
+     { id: "metric", type: "select", label: "Your Project A metric", show: () => !!ttype(), options: () => [["","Choose…"], ...METRICS[ttype()]] },
+     { id: "team", type: "number", label: "People on your team", step: "1", min: "1" },
+     { id: "registered", type: "select", label: "Is the team registered on Canvas?", options: [["","Choose…"],["yes","Yes"],["no","Not yet"]] },
+     { id: "role", type: "text", label: "Your stakeholder from Project A (their role)" },
+     { id: "org", type: "text", label: "Where they work" }
+   ],
+   facts: () => ds() ? { title: ds().name + " · from the course data file", items: ds().facts } : null,
+   check() {
+     const out = [];
+     if (!S.dataset) return out;
+     if (!S.target) { out.push(V("work", "Choose your Project A target.")); return out; }
+     if (!S.metric) out.push(V("work", "Choose the metric you used in Project A. Every comparison in this project uses it."));
+     const n = num(S.team);
+     if (n !== null) out.push(n >= 2 && n <= 4 ? V("good", `A team of ${n}.`) : V("work", n < 2 ? "Nobody works alone on the final project: teams are 2–4." : "Teams are at most 4.", "FinalProject.pdf · Teams"));
+     if (S.registered === "no") out.push(V("work", "Register the team on Canvas by Tue 12/01. Anyone without a team by then is placed in one.", "FinalProject.pdf · Teams"));
+     if (!(S.role || "").trim()) out.push(V("check", "Name your Project A stakeholder. Every investigation should matter to them.", "FinalProject.pdf · Part 2, item 1"));
+     return out;
+   } },
+ { id: "repro", phase: "Start where Project A ended", name: "Reproduce your result", src: "FinalProject.pdf · Part 1",
+   why: "Re-run your final Project A pipeline on the same split and the same folds, and get your cross-validated score back.",
+   todo: () => [
+     "Use the same file, target, metric, `random_state`, test size and CV object as Project A.",
+     "Run `cross_val_score(pipe, X_train, y_train, cv=cv, " + (S.metric ? "scoring=\"" + SCORING[S.metric] + "\"" : "scoring=…") + ")` and print the mean.",
+     "If you fixed a bug since you submitted Project A, say what it was and use the fixed version.",
+     "Do not touch `X_test`. It appears once, in Part 3."
+   ],
+   fields: () => ttype() && S.metric ? [
+     { id: "paMean", type: "number", label: `CV ${metricName()} you reported in Project A`, step: "any" },
+     { id: "nowMean", type: "number", label: `CV ${metricName()} you get now`, step: "any" },
+     { id: "same", type: "select", label: "Same split, seed and folds as Project A?", options: [["","Choose…"],["yes","Yes"],["no","No"]] },
+     { id: "bug", type: "select", label: "Did you fix a bug since Project A?", options: [["","Choose…"],["no","No"],["yes","Yes, and the notebook says what it was"]] }
+   ] : [],
+   check() {
+     const out = [];
+     if (!ttype() || !S.metric) return [PRE(`Finish ${stepRef("task")} first.`)];
+     if (S.same === "no") out.push(V("work", "Use the same split, seed and folds. Otherwise every later comparison mixes your change with a different split.", "FinalProject.pdf · Part 1"));
+     const a = num(S.paMean), b = num(S.nowMean);
+     if (a !== null && b !== null) {
+       const d = Math.abs(a - b);
+       if (d <= Math.max(1e-4, Math.abs(a) * 1e-3)) out.push(V("good", "Reproduced: you get your Project A score back."));
+       else if (S.bug === "yes") out.push(V("check", `The score moved by ${fmt(d, 4)} after your bug fix. Report the fixed number from here on, and say how much it changed.`, "FinalProject.pdf · Part 1"));
+       else out.push(V("work", `You get ${fmt(b, 4)}, not ${fmt(a, 4)}. With the same seed, split and folds the number should come back exactly. Look for a missing random_state, a different sample, or a changed preprocessing step.`, "FinalProject.pdf · Part 1"));
+     }
+     return out;
+   } },
+ { id: "noise", phase: "Start where Project A ended", name: "Your noise floor", src: "FinalProject.pdf · Part 1; Lecture 5.3",
+   why: "Print your Project A model's score on each fold. How much the folds disagree is how big a difference has to be before it is real.",
+   todo: () => [
+     "Print the fold scores themselves: `scores = cross_val_score(...)`, then `print(scores.round(4))`.",
+     "Print `scores.mean()` and `scores.std()`" + (lowerBetter() ? ", after flipping the sign." : "."),
+     "Finish this sentence in your notebook: \"On this dataset, a difference smaller than ___ is noise.\"",
+     "Keep `scores`: every investigation compares against these exact numbers."
+   ],
+   fields: () => ttype() && S.metric ? [
+     { id: "refFolds", type: "text", label: `Project A model: ${metricName()} on each fold`, hint: "Paste the five numbers, separated by commas, in fold order.", wide: true },
+     { id: "floor", type: "number", label: "Your noise floor (the ___ in the sentence)", step: "any" }
+   ] : [],
+   facts: stakeholderBox,
+   check() {
+     const out = [];
+     if (!ttype() || !S.metric) return [PRE(`Finish ${stepRef("task")} first.`)];
+     const r = refFolds();
+     if (!S.refFolds) return out;
+     if (!foldsOk(r)) return [V("work", "Enter the fold scores as plain numbers separated by commas.")];
+     if (lowerBetter() && r.some(x => x < 0)) return [V("work", `An error cannot be negative. scikit-learn's scorer returns −${metricName()}; flip the sign.`, "scikit-learn behaviour")];
+     if (r.length < 3) out.push(V("work", `${r.length} score${r.length === 1 ? "" : "s"}: enter one per fold.`));
+     else out.push(V("good", `${r.length} folds: mean ${fmt(mean(r), 4)}, standard deviation ${fmt(sdev(r), 4)}.`, "computed from the numbers you entered"));
+     const a = num(S.nowMean);
+     if (a !== null && Math.abs(mean(r) - a) > Math.max(1e-3, Math.abs(a) * 5e-3)) out.push(V("check", `These folds average ${fmt(mean(r), 4)}, but ${stepRef("repro")} says ${fmt(a, 4)}. They should be the same run.`));
+     const f = num(S.floor);
+     if (f !== null && r.length >= 3) {
+       const sd = sdev(r);
+       if (f < sd * 0.75) out.push(R("check", `Your noise floor (${fmt(f, 4)}) is smaller than your fold spread (${fmt(sd, 4)}). Differences that small can come from the split alone.`, "Lecture 5.3"));
+       else if (f > sd * 2.5) out.push(R("check", `Your noise floor (${fmt(f, 4)}) is much larger than your fold spread (${fmt(sd, 4)}). Say where the extra caution comes from, or use the spread.`, "Lecture 5.3"));
+       else out.push(R("good", `A noise floor of ${fmt(f, 4)} is in line with your fold spread (${fmt(sd, 4)}).`, "Lecture 5.3"));
+     }
+     return out;
+   } },
+ { id: "open", phase: "Start where Project A ended", name: "What Project A left open", src: "FinalProject.pdf · Part 1",
+   why: "One paragraph: where your Project A model failed, and what you wished you had tried. Your two investigations come from here.",
+   todo: () => [
+     "Reread your Project A worst slice, your three mistakes, and your memo's \"what I would want before trusting it\".",
+     "Write one paragraph: where the model failed (with a number), and what you wished you had tried.",
+     "List two or three candidate questions. Choose two for Part 2."
+   ],
+   fields: () => [
+     { id: "openPara", type: "textarea", label: "Your paragraph", wide: true, rows: 6 }
+   ],
+   check() {
+     const out = [], n = words(S.openPara);
+     if (!n) return out;
+     out.push(n < 50 ? V("work", `${n} words. Say where the model failed, with a number, and what you wished you had tried.`) : V("good", `${n} words.`));
+     if (!/\d/.test(S.openPara || "")) out.push(V("check", "Include at least one number from Project A: the worst slice, or a score."));
+     out.push(V("unk", "Whether these are the right questions to chase is for your team to decide."));
+     return out;
+   } },
+ investigation("i1", 1),
+ investigation("i2", 2),
+ { id: "final", phase: "Verdict and hand-in", name: "Choose, test once, verdict", src: "FinalProject.pdf · Part 3",
+   why: "Choose the model you would recommend using cross-validation only. Then score on the test set once, break it down, and give a verdict.",
+   todo: () => [
+     "Choose by CV: your Project A model, or something better from Part 2. If the gap is inside the noise, it is a tie: recommend the simpler model.",
+     "In one clearly marked cell, score on the test set once: your Project A model, and your recommended model if it is different.",
+     ttype() === "reg" ? "Break the error down by a slice that matters to your stakeholder." : "Break it down with `classification_report(y_test, y_pred)`: recall for each class.",
+     "Name the worst slice, with its number, and show three real mistakes your recommended model makes.",
+     "Write the verdict in its own short section: did anything beat Project A by more than the noise floor? What should your stakeholder use it for, and not use it for?"
+   ],
+   fields: () => ttype() && S.metric ? [
+     { id: "rec", type: "select", label: "The model you recommend", options: [["","Choose…"],["ref","Our Project A model"],["i1","The new model from investigation 1"],["i2","The new model from investigation 2"],["other","Something else"]] },
+     { id: "chosenBy", type: "select", label: "How did you choose it?", options: [["","Choose…"],["cv","Cross-validation on the training set"],["test","Test-set scores"]] },
+     { id: "testRef", type: "number", label: `Test ${metricName()}: Project A model`, step: "any" },
+     { id: "testRec", type: "number", label: `Test ${metricName()}: recommended model (if different)`, step: "any" },
+     { id: "testOnce", type: "select", label: "Does X_test appear anywhere outside that one cell?", options: [["","Choose…"],["no","No"],["yes","Yes"]] },
+     { id: "worst", type: "textarea", label: "Your worst slice, with its number", wide: true },
+     { id: "mistakes", type: "number", label: "How many real mistakes do you show?", step: "1", min: "0" }
+   ] : [],
+   check() {
+     const out = [];
+     if (!ttype() || !S.metric) return [PRE(`Finish ${stepRef("task")} first.`)];
+     if (S.chosenBy === "test") out.push(V("work", "Choose with cross-validation only. A choice made on test scores turns the test set into a second validation set.", "FinalProject.pdf · Part 3"));
+     if (S.testOnce === "yes") out.push(V("work", "X_test may appear only in the one marked cell. Every other use loses those points.", "FinalProject.pdf · About the test set"));
+     else if (S.testOnce === "no") out.push(V("good", "You report the test set is touched once. Search the notebook for X_test to be sure."));
+     if (S.rec === "i1" || S.rec === "i2") {
+       const p = S.rec, k = S[p + "kind"], ref = k === "groups" ? folds(S[p + "ref"]) : refFolds(), nw = folds(S[p + "new"]);
+       if (foldsOk(ref) && foldsOk(nw) && ref.length === nw.length) {
+         const j = judge(ref, nw);
+         if (j.gap <= 0) out.push(V("work", `In ${stepRef(p === "i1" ? "inv1" : "inv2")}, the new model did not beat your Project A model on average. Recommend the Project A model, or explain why not.`));
+         else if (j.verdict === "tie") out.push(R("work", `In ${stepRef(p === "i1" ? "inv1" : "inv2")} the gap (${fmt(j.gap, 4)}) is inside the fold spread (±${fmt(j.spread, 4)}): a tie. The spec says recommend the simpler model.`, "FinalProject.pdf · Part 3; Lecture 5.3"));
+         else if (j.verdict === "closer") out.push(R("check", "The gap clears the spread but not on every fold. Say why you still trust it, or recommend the simpler model.", "Lecture 5.3"));
+         else out.push(R("good", `Chosen by CV: it beats your Project A model by more than the noise, on every fold.`, "Lecture 5.3"));
+       } else out.push(V("unk", `Enter both sets of fold scores in ${stepRef(p === "i1" ? "inv1" : "inv2")} to check this choice.`));
+     } else if (S.rec === "ref") out.push(V("good", "Keeping your Project A model is a full-credit verdict when Part 2 shows nothing beat it by more than the noise."));
+     const r = refFolds(), tr = num(S.testRef);
+     if (foldsOk(r) && r.length >= 3 && tr !== null) {
+       const z = Math.abs(tr - mean(r)) / (sdev(r) || Infinity);
+       out.push(R(z <= 2 ? "good" : "check", `Project A model: test ${fmt(tr, 4)} vs CV ${fmt(mean(r), 4)}, ${fmt(z, 1)} fold standard deviations apart.${z > 2 ? " Explain the gap." : ""}`, "FinalProject.pdf · Part 3"));
+     }
+     if (words(S.worst) >= 4) out.push(/\d/.test(S.worst) ? V("good", "Worst slice named, with a number.") : V("check", "Include the number for your worst slice."));
+     const m = num(S.mistakes);
+     if (m !== null) out.push(m >= 3 ? V("good", `${m} real mistakes shown.`) : V("work", `Show three real mistakes; you have ${m}.`, "FinalProject.pdf · Part 3"));
+     return out;
+   } },
+ { id: "card", phase: "Verdict and hand-in", name: "Model card", src: "FinalProject.pdf · The model card",
+   why: "About one page for the model you recommend. It travels with the model to someone who did not build it; its job is to stop them misusing it.",
+   todo: () => [
+     "Copy `model_card_template.docx` (on Canvas) into Google Docs or Word. Skip any section that does not apply.",
+     "Report your honest number with its fold spread, and the worst slice.",
+     "Write the \"do not use this model for…\" section with real, specific cases.",
+     "Download it as a PDF, about one page."
+   ],
+   fields: () => [
+     { id: "dontUse", type: "textarea", label: "Paste your \"do not use this model for…\" section", wide: true },
+     { id: "cardSpread", type: "select", label: "Does the card give the score with its fold spread?", options: [["","Choose…"],["yes","Yes"],["no","Not yet"]] },
+     { id: "cardPage", type: "select", label: "Is it about one page?", options: [["","Choose…"],["yes","Yes"],["no","Longer"]] }
+   ],
+   check() {
+     const out = [], n = words(S.dontUse);
+     if (n) out.push(n < 25 ? V("work", "Give real, specific cases: who, for what decision, and why the model would mislead them.", "FinalProject.pdf · The model card") : V("unk", "Your section is written. Whether the cases are the right ones is for a reader to judge."));
+     if (S.cardSpread === "no") out.push(V("work", "Give the score with its fold spread, so the reader knows how much it wobbles."));
+     if (S.cardPage === "no") out.push(V("check", "Cut it to about a page: keep what stops misuse."));
+     return out;
+   } },
+ { id: "submit", phase: "Verdict and hand-in", name: "Reflection and submission", src: "FinalProject.pdf · What you hand in; Your individual reflection",
+   why: "Each member writes their own reflection. The team submits one notebook and one model card. Everything is due Sat 12/12, 11:59 pm.",
+   todo: () => [
+     "End the notebook with Part 4: one or two sentences per member on who did what, and your AI-assistance disclosure.",
+     "Runtime → Restart session and run all, and check it finishes with no errors. Then convert it to HTML.",
+     "One member submits the notebook (HTML) and the model card (PDF) to Final Project.",
+     "Each member submits their own reflection (about 300 words) to Final Project Reflection.",
+     "Thu 12/10 is the project studio: bring your notebook and your questions."
+   ],
+   fields: () => [
+     { id: "refl", type: "textarea", label: "Paste your own reflection draft", hint: "Yours alone: it is graded for you, not the team.", wide: true, rows: 8 },
+     { id: "r1", type: "select", label: "Does it say what you led or built, and what was hardest?", options: [["","Choose…"],["yes","Yes"],["no","Not yet"]] },
+     { id: "r2", type: "select", label: "Does it explain one number from the notebook, and why you trust it (or don't)?", options: [["","Choose…"],["yes","Yes"],["no","Not yet"]] },
+     { id: "r3", type: "select", label: "Does it say what you would test next, with a prediction?", options: [["","Choose…"],["yes","Yes"],["no","Not yet"]] },
+     { id: "contrib", type: "select", label: "Does the notebook end with contributions and an AI disclosure?", options: [["","Choose…"],["yes","Yes"],["no","Not yet"]] },
+     { id: "runall", type: "select", label: "Did Restart and run all finish without errors?", options: [["","Choose…"],["yes","Yes"],["no","Not yet"]] }
+   ],
+   check() {
+     const out = [], n = words(S.refl);
+     if (n) out.push(n < 200 ? R("check", `${n} words; the reflection asks for about 300.`) : n > 450 ? R("check", `${n} words; about 300 is enough.`) : R("good", `${n} words.`));
+     if (n && !/\d/.test(S.refl)) out.push(V("check", "Question 2 asks you to explain one number. Name it."));
+     ["r1","r2","r3"].forEach((q, i) => { if (S[q] === "no") out.push(V("work", ["Say what you led or built, and the hardest part.", "Pick one number and explain what it means and why you trust it.", "Say what you would test next, and what you predict."][i], "FinalProject.pdf · Your individual reflection")); });
+     if (S.contrib === "no") out.push(V("work", "Add who did what and your AI-assistance disclosure at the end of the notebook.", "FinalProject.pdf · Part 4"));
+     if (S.runall === "no") out.push(V("work", "The notebook must run top to bottom before you convert it.", "FinalProject.pdf · Grading"));
+     if (n) out.push(V("unk", "Whether it reads like you is for you to judge."));
+     return out;
+   } },
+ { id: "summary", phase: "Verdict and hand-in", name: "Summary", summary: true }
+];
+
+// ---------- Rendering ----------
+const rail = document.getElementById("rail"), pane = document.getElementById("pane");
+function todos(st) { try { return st.todo ? st.todo() : []; } catch (e) { return []; } }
+function doneCount(st) { const d = S.done[st.id] || []; return todos(st).filter((_, i) => d[i]).length; }
+function stepStatus(i) {
+  const st = STEPS[i]; if (st.summary) return null;
+  let v; try { v = st.check(); } catch (e) { v = []; }
+  if (!v.length || v.every(x => x.pre)) return null;
+  return v.filter(x => !x.pre).reduce((acc, x) => LEVEL_ORDER[x.level] > LEVEL_ORDER[acc] ? x.level : acc, "good");
+}
+function renderRail() {
+  rail.innerHTML = "";
+  let phase = null;
+  STEPS.forEach((st, i) => {
+    if (st.phase !== phase && !st.summary) { phase = st.phase; const h = document.createElement("div"); h.className = "phase"; h.textContent = phase; rail.appendChild(h); }
+    const s = stepStatus(i), b = document.createElement("button");
+    b.type = "button"; if (i === current) b.setAttribute("aria-current", "step");
+    b.innerHTML = `<span class="num">${st.summary ? "✓" : i + 1}</span><span class="name"></span><span class="dot ${s || ""}" title="${s ? LEVEL_LABEL[s] : "Not started"}"></span>`;
+    b.querySelector(".name").textContent = st.name;
+    b.setAttribute("aria-label", `${st.name}: ${s ? LEVEL_LABEL[s] : "not started"}`);
+    b.addEventListener("click", () => { current = i; save(); render(); pane.querySelector("h2")?.focus(); });
+    rail.appendChild(b);
+  });
+}
+// Text with `code` spans, built without innerHTML.
+function rich(el, text) {
+  String(text).split("`").forEach((part, i) => { if (!part) return; if (i % 2) { const c = document.createElement("code"); c.textContent = part; el.appendChild(c); } else el.appendChild(document.createTextNode(part)); });
+  return el;
+}
+function control(f) {
+  const wrap = document.createElement("div"); wrap.className = "field" + (f.wide ? " wide" : "");
+  const id = "f-" + f.id, lab = document.createElement("label"); lab.htmlFor = id; lab.textContent = f.label; wrap.appendChild(lab);
+  let el;
+  if (f.type === "select") {
+    el = document.createElement("select");
+    const opts = typeof f.options === "function" ? f.options() : f.options;
+    opts.forEach(([v, t]) => { const o = document.createElement("option"); o.value = v; o.textContent = t; el.appendChild(o); });
+  } else if (f.type === "textarea") { el = document.createElement("textarea"); if (f.rows) el.rows = f.rows; }
+  else { el = document.createElement("input"); el.type = f.type === "number" ? "number" : "text"; if (f.step) el.step = f.step; if (f.min) el.min = f.min; if (f.max) el.max = f.max; if (f.type === "number") el.inputMode = "decimal"; }
+  el.id = id; el.value = S[f.id] ?? "";
+  el.addEventListener(f.type === "select" ? "change" : "input", () => {
+    S[f.id] = el.value;
+    if (f.id === "dataset") { S.target = ""; S.metric = ""; }
+    if (f.id === "target") { S.metric = ""; }
+    save();
+    if (f.type === "select") render(); else { renderVerdicts(); renderRail(); }
+  });
+  wrap.appendChild(el);
+  if (f.hint) { const h = document.createElement("span"); h.className = "hint"; h.textContent = f.hint; wrap.appendChild(h); }
+  return wrap;
+}
+function todoList(st) {
+  const items = todos(st); if (!items.length) return null;
+  const box = document.createElement("div"); box.style.display = "flex"; box.style.flexDirection = "column"; box.style.gap = "8px";
+  const h = document.createElement("h3"); h.className = "sec"; h.textContent = "Do this in your notebook";
+  const cnt = document.createElement("span"); cnt.className = "count"; h.appendChild(cnt); box.appendChild(h);
+  const ol = document.createElement("ol"); ol.className = "todo";
+  const d = S.done[st.id] || (S.done[st.id] = []);
+  const recount = () => { cnt.textContent = `${items.filter((_, i) => d[i]).length} of ${items.length} done`; };
+  items.forEach((t, i) => {
+    const li = document.createElement("li"); if (d[i]) li.className = "done";
+    const cb = document.createElement("input"); cb.type = "checkbox"; cb.id = `todo-${st.id}-${i}`; cb.checked = !!d[i];
+    const lab = document.createElement("label"); lab.htmlFor = cb.id; rich(lab, t);
+    cb.addEventListener("change", () => { d[i] = cb.checked; li.className = cb.checked ? "done" : ""; save(); recount(); });
+    li.append(cb, lab); ol.appendChild(li);
+  });
+  recount(); box.appendChild(ol);
+  return box;
+}
+function modelTable() {
+  const t = ttype(); if (!t) return null;
+  const box = document.createElement("div"); box.className = "models";
+  const tbl = document.createElement("table");
+  tbl.innerHTML = `<thead><tr><th scope="col">Model family</th><th scope="col">Mean CV ${metricName()}</th><th scope="col">Standard deviation across folds</th></tr></thead>`;
+  const tb = document.createElement("tbody");
+  S.models.forEach((r, i) => {
+    const tr = document.createElement("tr");
+    const sel = document.createElement("select"); sel.id = "m-fam-" + i; sel.setAttribute("aria-label", `Model ${i + 1} family`);
+    [["","—"], ...FAMILIES[t].map(x => [x, x]), ["Other", "Other (not from the course list)"]].forEach(([v, l]) => { const o = document.createElement("option"); o.value = v; o.textContent = l; sel.appendChild(o); });
+    sel.value = r.fam || "";
+    sel.addEventListener("change", () => { r.fam = sel.value; save(); renderVerdicts(); renderRail(); });
+    const mk = (k, lab) => { const inp = document.createElement("input"); inp.type = "number"; inp.step = "any"; inp.id = `m-${k}-${i}`; inp.inputMode = "decimal"; inp.setAttribute("aria-label", `Model ${i + 1} ${lab}`); inp.value = r[k] ?? ""; inp.addEventListener("input", () => { r[k] = inp.value; save(); renderVerdicts(); renderRail(); }); return inp; };
+    [sel, mk("mean", "mean"), mk("sd", "standard deviation")].forEach(el => { const td = document.createElement("td"); td.appendChild(el); tr.appendChild(td); });
+    tb.appendChild(tr);
+  });
+  tbl.appendChild(tb); box.appendChild(tbl);
+  return box;
+}
+let verdictBox = null;
+function renderVerdicts() {
+  if (!verdictBox) return;
+  const st = STEPS[current]; let v = [];
+  try { v = st.check(); } catch (e) { v = [V("unk","Something in this step could not be checked. Re-enter the numbers as plain decimals.")]; }
+  verdictBox.innerHTML = "";
+  const h = document.createElement("h3"); h.className = "sec"; h.textContent = "What this step looks like"; verdictBox.appendChild(h);
+  if (!v.length) { const p = document.createElement("p"); p.className = "empty"; p.textContent = "Fill in the fields above; feedback appears here as you go."; verdictBox.appendChild(p); return; }
+  [...v].sort((a, b) => LEVEL_ORDER[b.level] - LEVEL_ORDER[a.level]).forEach(x => {
+    const d = document.createElement("div"); d.className = "v " + (x.pre ? "" : x.level);
+    d.innerHTML = x.pre ? `<span class="chip none">Waiting</span><p></p>` : `<span class="chip ${x.level}">${LEVEL_LABEL[x.level]}</span><p></p>`;
+    const p = d.querySelector("p"); p.textContent = x.text;
+    if (x.rule || (x.src && x.src !== "—")) {
+      const s = document.createElement("span"); s.className = "src";
+      if (x.rule) { const t = document.createElement("span"); t.className = "tag"; t.textContent = "Rule of thumb"; t.title = "A simplified cut-off from the lectures: a guide, not a statistical test."; s.appendChild(t); }
+      if (x.src && x.src !== "—") s.appendChild(document.createTextNode("Basis: " + x.src));
+      p.appendChild(s);
+    }
+    verdictBox.appendChild(d);
+  });
+}
+function summaryText() {
+  const lines = ["Final Project Training Wheels: summary", `Dataset: ${ds() ? ds().name : "—"} · Target: ${S.target || "—"} · Metric: ${S.metric ? metricName() : "—"}`];
+  if (S.role) lines.push(`Stakeholder: ${S.role}${S.org ? ", " + S.org : ""}`);
+  lines.push("");
+  STEPS.forEach((st, i) => { if (st.summary) return; const s = stepStatus(i); const n = todos(st).length;
+    lines.push(`${i + 1}. ${st.name}: ${s ? LEVEL_LABEL[s] : "Not started"}${n ? ` (${doneCount(st)} of ${n} notebook tasks ticked)` : ""}`);
+    let v = []; try { v = st.check(); } catch (e) {}
+    v.filter(x => !x.pre && (x.level === "work" || x.level === "check")).forEach(x => lines.push(`   - [${LEVEL_LABEL[x.level]}${x.rule ? ", rule of thumb" : ""}] ${x.text}`)); });
+  lines.push("", "This summary checks process only, from what was typed into the tool. It is not a grade.");
+  return lines.join("\n");
+}
+function render() {
+  if (current < 0 || current >= STEPS.length) current = 0;
+  renderRail();
+  const st = STEPS[current];
+  pane.innerHTML = "";
+  const card = document.createElement("section"); card.className = "card";
+  const h = document.createElement("h2"); h.tabIndex = -1; h.textContent = st.summary ? "Where you stand" : `${current + 1}. ${st.name}`; card.appendChild(h);
+  if (st.summary) {
+    const p = document.createElement("p"); p.className = "why"; p.textContent = "Every step at a glance. Steps marked Needs work have something the spec requires that is missing or contradicts what you entered. Bring the copied summary to office hours if you want feedback."; card.appendChild(p);
+    const ul = document.createElement("ul"); ul.className = "summary-list";
+    STEPS.forEach((s, i) => { if (s.summary) return; const li = document.createElement("li"); const st2 = stepStatus(i); const n = todos(s).length;
+      const name = document.createElement("span"); name.textContent = `${i + 1}. ${s.name}`;
+      const right = document.createElement("span"); right.className = "right";
+      if (n) { const c = document.createElement("span"); c.className = "src"; c.textContent = `${doneCount(s)}/${n} tasks`; right.appendChild(c); }
+      const chip = document.createElement("span"); chip.className = "chip " + (st2 || "none"); chip.textContent = st2 ? LEVEL_LABEL[st2] : "Not started"; right.appendChild(chip);
+      li.append(name, right); ul.appendChild(li); });
+    card.appendChild(ul);
+    const pre = document.createElement("pre"); pre.className = "out"; pre.id = "summary-text"; pre.textContent = summaryText(); card.appendChild(pre);
+    const row = document.createElement("div"); row.className = "nav-row";
+    const copy = document.createElement("button"); copy.className = "btn primary"; copy.type = "button"; copy.textContent = "Copy summary";
+    const msg = document.createElement("span"); msg.className = "hint"; msg.setAttribute("role", "status");
+    const selectPre = () => { const r = document.createRange(); r.selectNodeContents(pre); const sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); msg.textContent = "Selected: press Ctrl+C or ⌘C to copy."; };
+    copy.addEventListener("click", () => {
+      try { navigator.clipboard.writeText(pre.textContent).then(() => { msg.textContent = "Copied."; }).catch(selectPre); } catch (e) { selectPre(); }
+    });
+    const clear = document.createElement("button"); clear.className = "btn"; clear.type = "button"; clear.textContent = "Clear all my entries";
+    let armed = false;
+    clear.addEventListener("click", () => { if (!armed) { armed = true; clear.textContent = "Click again to clear everything"; return; } S = { models: [{},{},{},{}], done: {} }; current = 0; save(); render(); });
+    const left = document.createElement("div"); left.style.display = "flex"; left.style.gap = "10px"; left.style.alignItems = "center"; left.style.flexWrap = "wrap"; left.append(copy, msg);
+    row.append(left, clear); card.appendChild(row);
+    pane.appendChild(card); return;
+  }
+  const why = document.createElement("p"); why.className = "why"; why.textContent = st.why; card.appendChild(why);
+  const src = document.createElement("span"); src.className = "src"; src.textContent = "From: " + st.src; card.appendChild(src);
+  const facts = st.facts && st.facts();
+  if (facts) { const f = document.createElement("div"); f.className = "facts"; f.innerHTML = "<h3></h3><ul></ul>"; f.querySelector("h3").textContent = facts.title; facts.items.forEach(t => { const li = document.createElement("li"); li.textContent = t; f.querySelector("ul").appendChild(li); }); card.appendChild(f); }
+  const td = todoList(st); if (td) card.appendChild(td);
+  const hr = document.createElement("hr"); hr.className = "div"; card.appendChild(hr);
+  const h3 = document.createElement("h3"); h3.className = "sec"; h3.textContent = "What you got"; card.appendChild(h3);
+  const fl = st.fields().filter(f => !f.show || f.show());
+  if (!fl.length && !st.table) { const p = document.createElement("p"); p.className = "empty"; p.textContent = `This step depends on ${stepRef("task")}: choose a dataset and a target first.`; card.appendChild(p); }
+  if (st.table) { const t = modelTable(); if (t) card.appendChild(t); else { const p = document.createElement("p"); p.className = "empty"; p.textContent = `Choose a dataset, target and metric in ${stepRef("task","metric")} first.`; card.appendChild(p); } }
+  if (fl.length) { const g = document.createElement("div"); g.className = "fields"; fl.forEach(f => g.appendChild(control(f))); card.appendChild(g); }
+  verdictBox = document.createElement("div"); verdictBox.className = "verdicts"; verdictBox.setAttribute("aria-live", "polite"); card.appendChild(verdictBox);
+  renderVerdicts();
+  const nav = document.createElement("div"); nav.className = "nav-row";
+  const prev = document.createElement("button"); prev.className = "btn"; prev.type = "button"; prev.textContent = "← Previous step"; prev.disabled = current === 0;
+  const next = document.createElement("button"); next.className = "btn primary"; next.type = "button"; next.textContent = current === STEPS.length - 2 ? "See the summary →" : `Next: ${STEPS[current + 1].name} →`;
+  prev.addEventListener("click", () => { current--; save(); render(); window.scrollTo({ top: 0 }); });
+  next.addEventListener("click", () => { current++; save(); render(); window.scrollTo({ top: 0 }); });
+  nav.append(prev, next); card.appendChild(nav);
+  pane.appendChild(card);
+}
+render();
+})();
+</script>
+</body>
+</html>
